@@ -514,7 +514,7 @@ const FIGHT_DATA = {
     },
     f2: {
       name: "Jose Delgado", nickname: "", age: 26, nationality: "Venezuelan", flag: "🇻🇪", photo: "https://dmxg5wxfqgb4u.cloudfront.net/styles/athlete_bio_full_body/s3/2024-06/DELGADO_JOSE_L.png",
-      photo: "https://dmxg5wxfqgb4u.cloudfront.net/styles/athlete_bio_full_body/s3/2024-05/RODRIGUEZ_PIERA_L.png",
+
       hometown: "Caracas, Venezuela", height: "5'7\"", weight: 145, reach: 68, legReach: 38,
       stance: "Orthodox", team: "Kill Cliff FC", coach: "Duke Roufus",
       record: "12-2", wins: 12, losses: 2, draws: 0,
@@ -602,7 +602,7 @@ const FIGHT_DATA = {
     },
     f2: {
       name: "Sam Hughes", nickname: "", age: 31, nationality: "American", flag: "🇺🇸", photo: "https://dmxg5wxfqgb4u.cloudfront.net/styles/athlete_bio_full_body/s3/2024-06/HUGHES_SAM_L.png",
-      photo: "https://dmxg5wxfqgb4u.cloudfront.net/styles/athlete_bio_full_body/s3/2024-06/DELGADO_JOSE_L.png",
+
       hometown: "Las Vegas, NV", height: "5'6\"", weight: 115, reach: 65, legReach: 38,
       stance: "Southpaw", team: "Xtreme Couture", coach: "Randy Couture",
       record: "9-6", wins: 9, losses: 6, draws: 0,
@@ -670,7 +670,7 @@ const COMPLETED_RESULTS = [
 function Pill({ label, color = "#3a3d4a" }) {
   return <span style={{ ...mono, fontSize: 8, color, background: `${color}20`, padding: "2px 7px", borderRadius: 2, letterSpacing: 1, whiteSpace: "nowrap" }}>{label}</span>;
 }
-function Dots({ form = [] }) {
+// eslint-disable-next-line no-unused-vars
   return <div style={{ display: "flex", gap: 3, marginTop: 4 }}>{form.map((r, i) => <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: r === "W" ? "#00e5a0" : "#ff3d57", opacity: 0.3 + (i / form.length) * 0.7 }} />)}</div>;
 }
 function SLabel({ children }) { return <div style={{ ...mono, fontSize: 7, color: "#8a8fa8", letterSpacing: 3, textTransform: "uppercase", marginBottom: 8 }}>{children}</div>; }
@@ -704,7 +704,7 @@ function INote({ text }) { return <p style={{ ...sans, fontSize: 13, lineHeight:
 function Profile({ f, accent }) {
   const [hist, setHist] = useState(false);
   const [coachOpen, setCoachOpen] = useState(false);
-  const orgC = o => ({ UFC: "#ff3d57", Bellator: "#f5a623", ONE: "#00e5a0", PFL: "#818cf8", RIZIN: "#fb923c", DWCS: "#f5a623", Regional: "#3a3d4a" }[o] || "#3a3d4a");
+// eslint-disable-next-line no-unused-vars
   const coachData = COACH_ROSTERS[f.coach];
 
   return (
@@ -861,7 +861,7 @@ function Profile({ f, accent }) {
 }
 
 // ─── SIGNAL PANEL ─────────────────────────────────────────────────────────────
-function SignalScored({ sig, f1n, f2n, extra1, extra2, note1, note2 }) {
+// eslint-disable-next-line no-unused-vars
   const c = s => s >= 7 ? "#00e5a0" : s >= 5 ? "#f5a623" : "#ff3d57";
   return (
     <div>
@@ -911,7 +911,7 @@ const SIG_META = {
 };
 
 const ALL_SIGS = ["walkout","staredown","weighin","camp","physical","style","market","psych","stats","props","rlm","ref","travel","cage","rest","strikdiff","pace","oppqual","upset","parlays"];
-const TABS = ["profiles", ...ALL_SIGS];
+// eslint-disable-next-line no-unused-vars
 const TL = { profiles: "PROFILES", walkout: "WALKOUT", staredown: "STAREDOWN", weighin: "WEIGH-IN", camp: "CAMP", physical: "PHYSICAL", style: "STYLE", market: "MARKET", psych: "PSYCH", stats: "STATS", props: "PROPS", rlm: "LINE MOVE", ref: "REFEREE", travel: "TRAVEL", cage: "CAGE SIZE", rest: "DAYS REST", strikdiff: "STR DIFF", pace: "PACE/RND", oppqual: "OPP QUALITY", upset: "UPSET MODEL", parlays: "PARLAYS" };
 
 function getBullets(sig, key, f1n, f2n) {
@@ -950,7 +950,7 @@ function IntelPanel({ fightId }) {
   const d = FIGHT_DATA[fightId];
   if (!d) return null;
   const { f1, f2, signals: sig } = d;
-  const vc = v => v === "EDGE" ? "#007a4d" : v === "PUSH" ? "#f5a623" : "#e8001c";
+// eslint-disable-next-line no-unused-vars
   const verd = sig.verdict;
   const cc = verd.conv === "HIGH" ? "#007a4d" : verd.conv === "MEDIUM" ? "#f5a623" : "#6b7280";
   const f1wins = ALL_SIGS.filter(k => sig[k]?.v === "EDGE" && sig[k]?.who === f1.name).length;
@@ -1096,7 +1096,7 @@ function IntelPanel({ fightId }) {
 function renderDetailTab(key, sig, f1, f2) {
   const s = sig[key];
   if (!s) return null;
-  const vc = v => v === "EDGE" ? "#007a4d" : v === "PUSH" ? "#f5a623" : "#e8001c";
+// eslint-disable-next-line no-unused-vars
 
   if (key === "walkout" || key === "staredown" || key === "weighin" || key === "camp" || key === "psych") {
     const c = n => n >= 7 ? "#007a4d" : n >= 5 ? "#f5a623" : "#e8001c";
@@ -1225,7 +1225,7 @@ function renderDetailTab(key, sig, f1, f2) {
   }
 
   if (key === "rlm") {
-    const mc = s.movement !== "none" ? "#f5a623" : "#9da3b8";
+// eslint-disable-next-line no-unused-vars
     return <div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
         {[{ name: f1.name, open: s.openF1, cur: s.curF1 }, { name: f2.name, open: s.openF2, cur: s.curF2 }].map((fi, i) => {
@@ -1600,7 +1600,7 @@ function PhotoCard({ fdata, side, height = 140 }) {
 
 function FighterCard({ fdata, odds, side, picked, onPick, done, isWinner }) {
   const isFav_ = odds && isFav(odds);
-  const oddsColor = isFav_ ? "#e8001c" : "#007a4d";
+// eslint-disable-next-line no-unused-vars
   const isPicked = picked === side;
   const otherPicked = picked && picked !== side;
 
@@ -1741,7 +1741,7 @@ export default function App() {
       <div style={{ borderBottom: "1px solid #e4e6f0", padding: "18px 20px 0", maxWidth: 900, margin: "0 auto" }}>
         <div style={{ marginBottom: 14 }}>
           <div style={{ ...mono, fontSize: 10, color: "#e8001c", letterSpacing: 3, marginBottom: 6, fontWeight: 800, textTransform: "uppercase" }}>UFC · SPORTSBOOK INTELLIGENCE</div>
-          <div style={{ ...cond, fontWeight: 900, fontSize: "clamp(22px,4vw,40px)", letterSpacing: "-0.5px", letterSpacing: 1, lineHeight: 1, color: "#111318" }}>{event.name.toUpperCase()}</div>
+          <div style={{ ...cond, fontWeight: 900, fontSize: "clamp(22px,4vw,40px)", letterSpacing: 1, lineHeight: 1, color: "#111318" }}>{event.name.toUpperCase()}</div>
           <div style={{ ...mono, fontSize: 7, color: "#8a8fa8", marginTop: 4, letterSpacing: 1, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <span>{event.date} · {event.fights.length} BOUTS{pickCount > 0 ? ` · ${pickCount}/${upcoming.length} PICKS` : ""}</span>
             {ODDS_KEY && (
