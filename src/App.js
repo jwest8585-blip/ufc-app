@@ -908,8 +908,6 @@ const FIGHT_DATA = {
       ],
     },
   },
-};
-
 
   // ─── EVENT 7: EVLOEV vs MURPHY (Mar 21, London) ─────────────────────────
   ev1: {
@@ -1401,6 +1399,7 @@ const FIGHT_DATA = {
       ],
     },
   },
+};
 
 // ─── COMPLETED EVENT DATA ─────────────────────────────────────────────────────
 const COMPLETED_RESULTS = [
