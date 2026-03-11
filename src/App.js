@@ -2555,38 +2555,94 @@ function FightRow({ fight, picks, onPick }) {
 // ─── APP ──────────────────────────────────────────────────────────────────────
 const EVENTS = [
   {
-    name: "UFC FN: Emmett vs. Vallejos", date: "Sat, Mar 14 · 8PM EDT · Meta APEX, Las Vegas", status: "upcoming",
+    name: "UFC FN: Emmett vs. Vallejos", date: "Sat, Mar 14 · Meta APEX, Las Vegas · Main 8PM / Prelims 5PM EDT", status: "upcoming",
     fights: [
-      { id: "e1", f1: "Josh Emmett", f2: "Kevin Vallejos", wc: "Featherweight · Main Event", status: "UPCOMING", f1odds: "-185", f2odds: "+155" },
-      { id: "e2", f1: "Amanda Lemos", f2: "Gillian Robertson", wc: "Strawweight · Co-Main", status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
-      { id: "e3", f1: "Ion Cutelaba", f2: "Oumar Sy", wc: "Light Heavyweight", status: "UPCOMING", f1odds: "+110", f2odds: "-135" },
-      { id: "e4", f1: "Vitor Petrino", f2: "Steven Asplund", wc: "Heavyweight", status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
-      { id: "e5", f1: "Andre Fili", f2: "Jose Delgado", wc: "Featherweight", status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
-      { id: "e6", f1: "Piera Rodriguez", f2: "Sam Hughes", wc: "Strawweight", status: "UPCOMING", f1odds: "-160", f2odds: "+132" },
+      { id: "e1",  f1: "Josh Emmett",       f2: "Kevin Vallejos",     wc: "Featherweight · Main Event",   status: "UPCOMING", f1odds: "-185", f2odds: "+155" },
+      { id: "e2",  f1: "Amanda Lemos",       f2: "Gillian Robertson",  wc: "Strawweight · Co-Main",        status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "e3",  f1: "Ion Cutelaba",       f2: "Oumar Sy",           wc: "Light Heavyweight",            status: "UPCOMING", f1odds: "+110", f2odds: "-135" },
+      { id: "e4",  f1: "Vitor Petrino",      f2: "Steven Asplund",     wc: "Heavyweight",                  status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "e5",  f1: "Andre Fili",         f2: "Jose Delgado",       wc: "Featherweight",                status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "e6",  f1: "Piera Rodriguez",    f2: "Sam Hughes",         wc: "Strawweight",                  status: "UPCOMING", f1odds: "-160", f2odds: "+132" },
     ]
   },
   {
-    name: "UFC FN: Evloev vs. Murphy", date: "Sat, Mar 21 · 4PM EDT · O2 Arena, London 🇬🇧", status: "upcoming",
+    name: "UFC FN: Evloev vs. Murphy", date: "Sat, Mar 21 · O2 Arena, London 🇬🇧 · Main 4PM / Prelims 1PM EDT", status: "upcoming",
     fights: [
-      { id: "ev1", f1: "Movsar Evloev", f2: "Lerone Murphy", wc: "Featherweight · Title Eliminator", status: "UPCOMING", f1odds: "-160", f2odds: "+130" },
+      // ── MAIN CARD ──
+      { id: "ev1",  f1: "Movsar Evloev",      f2: "Lerone Murphy",      wc: "Featherweight · Title Eliminator · MAIN EVENT", status: "UPCOMING", f1odds: "-160", f2odds: "+130" },
+      { id: "ev2",  f1: "Luke Riley",         f2: "Michael Aswell",     wc: "Featherweight · Co-Main",      status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "ev3",  f1: "Roman Dolidze",      f2: "Christian L. Duncan",wc: "Middleweight",                 status: "UPCOMING", f1odds: "-150", f2odds: "+125" },
+      { id: "ev4",  f1: "Iwo Baraniewski",    f2: "Austen Lane",        wc: "Light Heavyweight",            status: "UPCOMING", f1odds: "-135", f2odds: "+112" },
+      { id: "ev5",  f1: "Kurtis Campbell",    f2: "Danny Silva",        wc: "Featherweight",                status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      // ── PRELIMS ──
+      { id: "ev6",  f1: "Michael Page",       f2: "Sam Patterson",      wc: "Welterweight · Prelims",       status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "ev7",  f1: "Mason Jones",        f2: "Axel Sola",          wc: "Lightweight · Prelims",        status: "UPCOMING", f1odds: "-175", f2odds: "+145" },
+      { id: "ev8",  f1: "Shanelle Dyer",      f2: "Ravena Oliveira",    wc: "Strawweight · Prelims",        status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "ev9",  f1: "Nathaniel Wood",     f2: "Losene Keita",       wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-250", f2odds: "+200" },
+      { id: "ev10", f1: "Louie Sutherland",   f2: "Brando Pericic",     wc: "Heavyweight · Prelims",        status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "ev11", f1: "Antonio Trocoli",    f2: "Mantas Kondratav.",   wc: "Middleweight · Prelims",       status: "UPCOMING", f1odds: "-115", f2odds: "-105" },
+      { id: "ev12", f1: "Mario Pinto",        f2: "Felipe Franco",      wc: "Heavyweight · Prelims",        status: "UPCOMING", f1odds: "-250", f2odds: "+200" },
+      { id: "ev13", f1: "Shem Rock",          f2: "A. Al-Selwady",      wc: "Lightweight · Prelims",        status: "UPCOMING", f1odds: "-140", f2odds: "+115" },
+      { id: "ev14", f1: "Melissa Mullins",    f2: "Luana Carolina",     wc: "Bantamweight · Prelims",       status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
     ]
   },
   {
-    name: "UFC FN: Adesanya vs. Pyfer", date: "Sat, Mar 28 · 8PM EDT · Climate Pledge Arena, Seattle", status: "upcoming",
+    name: "UFC FN: Adesanya vs. Pyfer", date: "Sat, Mar 28 · Climate Pledge Arena, Seattle · Main 9PM / Prelims 6PM EDT", status: "upcoming",
     fights: [
-      { id: "em1", f1: "Israel Adesanya", f2: "Joe Pyfer", wc: "Middleweight · Main Event", status: "UPCOMING", f1odds: "-320", f2odds: "+250" },
+      // ── MAIN CARD ──
+      { id: "em1",  f1: "Israel Adesanya",    f2: "Joe Pyfer",          wc: "Middleweight · Main Event",    status: "UPCOMING", f1odds: "-320", f2odds: "+250" },
+      { id: "em2",  f1: "Alexa Grasso",       f2: "Maycee Barber",      wc: "Flyweight · Co-Main",          status: "UPCOMING", f1odds: "-175", f2odds: "+145" },
+      { id: "em3",  f1: "Chase Hooper",       f2: "Lance Gibson Jr.",   wc: "Lightweight",                  status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "em4",  f1: "Michael Chiesa",     f2: "Carlston Harris",    wc: "Welterweight",                 status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "em5",  f1: "Terrance McKinney",  f2: "Kyle Nelson",        wc: "Lightweight",                  status: "UPCOMING", f1odds: "-155", f2odds: "+128" },
+      // ── PRELIMS ──
+      { id: "em6",  f1: "Marcin Tybura",      f2: "Tyrell Fortune",     wc: "Heavyweight · Prelims",        status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "em7",  f1: "Casey O'Neill",      f2: "G. Fernandes",       wc: "Flyweight · Prelims",          status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "em8",  f1: "Mansur Abdul-Malik", f2: "Yousri Belgaroui",   wc: "Middleweight · Prelims",       status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "em9",  f1: "Kangjie Zhu",        f2: "Marcio Barbosa",     wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "em10", f1: "Julian Erosa",       f2: "Lerryan Douglas",    wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-160", f2odds: "+132" },
+      { id: "em11", f1: "Navajo Stirling",    f2: "Bruno Lopes",        wc: "Light Heavyweight · Prelims",  status: "UPCOMING", f1odds: "+110", f2odds: "-135" },
+      { id: "em12", f1: "Bruna Brasil",       f2: "Alexia Thainara",    wc: "Strawweight · Prelims",        status: "UPCOMING", f1odds: "-150", f2odds: "+125" },
     ]
   },
   {
-    name: "UFC FN: Moicano vs. Duncan", date: "Sat, Apr 4 · 6PM EDT · Meta APEX, Las Vegas", status: "upcoming",
+    name: "UFC FN: Moicano vs. Duncan", date: "Sat, Apr 4 · Meta APEX, Las Vegas · Main 9PM / Prelims 6PM EDT", status: "upcoming",
     fights: [
-      { id: "en1", f1: "Renato Moicano", f2: "Chris Duncan", wc: "Lightweight · Main Event", status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      // ── MAIN CARD ──
+      { id: "en1",  f1: "Renato Moicano",     f2: "Chris Duncan",       wc: "Lightweight · Main Event",     status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "en2",  f1: "Virna Jandiroba",    f2: "Tabatha Ricci",      wc: "Strawweight · Co-Main",        status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "en3",  f1: "Hailey Cowan",       f2: "Alice Pereira",      wc: "Bantamweight",                 status: "UPCOMING", f1odds: "-115", f2odds: "-105" },
+      { id: "en4",  f1: "Alessandro Costa",   f2: "Stewart Nicoll",     wc: "Flyweight",                    status: "UPCOMING", f1odds: "-175", f2odds: "+145" },
+      { id: "en5",  f1: "Dione Barbosa",      f2: "Melissa Gatto",      wc: "Flyweight",                    status: "UPCOMING", f1odds: "+110", f2odds: "-135" },
+      // ── PRELIMS ──
+      { id: "en6",  f1: "Azamat Bekoev",      f2: "Tresean Gore",       wc: "Middleweight · Prelims",       status: "UPCOMING", f1odds: "-175", f2odds: "+145" },
+      { id: "en7",  f1: "Tommy McMillen",     f2: "Manolo Zecchini",    wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "en8",  f1: "Tofiq Musayev",      f2: "Samuel Sanches",     wc: "Lightweight · Prelims",        status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "en9",  f1: "Thomas Petersen",    f2: "Guilherme Pat",      wc: "Heavyweight · Prelims",        status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "en10", f1: "Jose Delano",        f2: "Robert Ruchala",     wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-115", f2odds: "-105" },
+      { id: "en11", f1: "Rafael Estevam",     f2: "Ethyn Ewing",        wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      { id: "en12", f1: "JunYong Park",       f2: "Edmen Shahbazyan",   wc: "Middleweight · Prelims",       status: "UPCOMING", f1odds: "+130", f2odds: "-158" },
+      { id: "en13", f1: "Charles Radtke",     f2: "Jose H. Souza",      wc: "Middleweight · Prelims",       status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
     ]
   },
   {
-    name: "UFC 327: Procházka vs. Ulberg", date: "Sat, Apr 11 · 9PM EDT · Kaseya Center, Miami 🏆", status: "upcoming",
+    name: "UFC 327: Procházka vs. Ulberg", date: "Sat, Apr 11 · Kaseya Center, Miami 🏆 · Main 9PM / Prelims 7PM EDT", status: "upcoming",
     fights: [
-      { id: "ep1", f1: "Jiří Procházka", f2: "Carlos Ulberg", wc: "Light Heavyweight Championship · VACANT TITLE", status: "UPCOMING", f1odds: "-135", f2odds: "+112" },
+      // ── MAIN CARD ──
+      { id: "ep1",  f1: "Jiří Procházka",     f2: "Carlos Ulberg",      wc: "Light Heavyweight Championship · VACANT TITLE", status: "UPCOMING", f1odds: "-135", f2odds: "+112" },
+      { id: "ep2",  f1: "Joshua Van",         f2: "Tatsuro Taira",      wc: "Flyweight Championship · TITLE FIGHT",          status: "UPCOMING", f1odds: "-175", f2odds: "+145" },
+      { id: "ep3",  f1: "Dominick Reyes",     f2: "Johnny Walker",      wc: "Light Heavyweight",            status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "ep4",  f1: "Curtis Blaydes",     f2: "Josh Hokit",         wc: "Heavyweight",                  status: "UPCOMING", f1odds: "-350", f2odds: "+275" },
+      { id: "ep5",  f1: "Beneil Dariush",     f2: "Manuel Torres",      wc: "Lightweight",                  status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
+      // ── PRELIMS ──
+      { id: "ep6",  f1: "Tatiana Suarez",     f2: "Loopy Godinez",      wc: "Strawweight · Prelims",        status: "UPCOMING", f1odds: "-300", f2odds: "+240" },
+      { id: "ep7",  f1: "Azamat Murzakanov",  f2: "Paulo Costa",        wc: "Light Heavyweight · Prelims",  status: "UPCOMING", f1odds: "-155", f2odds: "+128" },
+      { id: "ep8",  f1: "Cub Swanson",        f2: "Nate Landwehr",      wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "-130", f2odds: "+108" },
+      { id: "ep9",  f1: "Kevin Holland",      f2: "Randy Brown",        wc: "Welterweight · Prelims",       status: "UPCOMING", f1odds: "-115", f2odds: "-105" },
+      { id: "ep10", f1: "Patricio Pitbull",   f2: "Aaron Pico",         wc: "Featherweight · Prelims",      status: "UPCOMING", f1odds: "+115", f2odds: "-140" },
+      { id: "ep11", f1: "Mateusz Gamrot",     f2: "Esteban Ribovics",   wc: "Lightweight · Prelims",        status: "UPCOMING", f1odds: "-200", f2odds: "+165" },
+      { id: "ep12", f1: "Kelvin Gastelum",    f2: "Vicente Luque",      wc: "Middleweight · Prelims",       status: "UPCOMING", f1odds: "+140", f2odds: "-170" },
+      { id: "ep13", f1: "Christopher Alvidrez", f2: "Francisco Prado",  wc: "Welterweight · Prelims",       status: "UPCOMING", f1odds: "-145", f2odds: "+120" },
     ]
   },
   {
