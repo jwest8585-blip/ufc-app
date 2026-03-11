@@ -1179,7 +1179,7 @@ function StyleAnalysisPanel({ sa, f1, f2 }) {
 
       {/* ── Fighter Style Cards ── */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        {[{ f, data: sa.f1Style }, { f: f2, data: sa.f2Style }].map(({ f: fi, data: st }, idx) => (
+        {[{ f: f1, data: sa.f1Style }, { f: f2, data: sa.f2Style }].map(({ f: fi, data: st }, idx) => (
           <div key={fi.name} style={{ background: "#ffffff", border: `2px solid ${idx === 0 ? "#0057e820" : "#e8001c20"}`, borderRadius: 12, padding: "13px", overflow: "hidden" }}>
             <div style={{ ...sans, fontSize: 10, fontWeight: 700, color: idx === 0 ? "#0057e8" : "#e8001c", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>{fi.name}</div>
             <div style={{ ...sans, fontWeight: 900, fontSize: 15, color: "#0d0f14", marginBottom: 10 }}>{st.archetype}</div>
