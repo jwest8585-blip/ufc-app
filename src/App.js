@@ -9,15 +9,26 @@ const cond = { fontFamily: "'Inter Tight', sans-serif" };
 const sans = { fontFamily: "'Inter', sans-serif" };
 
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@700;800;900&family=Rajdhani:wght@500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;background:#0e0e14;}
 ::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:#f0f2f7}
-::-webkit-scrollbar-thumb{background:#c8cad5;border-radius:4px}
+::-webkit-scrollbar-track{background:#12121a}
+::-webkit-scrollbar-thumb{background:#2a2a3a;border-radius:4px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes octGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(229,57,53,0.4))}50%{filter:drop-shadow(0 0 14px rgba(229,57,53,0.85))}}
+@keyframes waveDraw{to{stroke-dashoffset:0}}
+@keyframes waveGlow{0%,100%{opacity:.9}50%{opacity:1;filter:drop-shadow(0 0 3px #e53935)}}
+@keyframes iqGlow{0%,100%{filter:drop-shadow(0 0 6px rgba(229,57,53,.3))}50%{filter:drop-shadow(0 0 16px rgba(229,57,53,.75))}}
+@keyframes liveBlink{0%,100%{opacity:1;box-shadow:0 0 4px #e53935}50%{opacity:.3;box-shadow:none}}
+@keyframes radarSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.oct-glow{animation:octGlow 2.8s ease-in-out infinite}
+.wave-draw{stroke-dasharray:80;stroke-dashoffset:80;animation:waveDraw 1.2s cubic-bezier(.4,0,.2,1) .4s forwards,waveGlow 2.8s ease-in-out 1.6s infinite}
+.iq-glow{animation:iqGlow 2.8s ease-in-out infinite}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#e53935;display:inline-block;animation:liveBlink 1.2s ease-in-out infinite}
+.radar-ring{animation:radarSpin 16s linear infinite;transform-origin:center}
 .fu{animation:fadeUp .25s ease both}
 .si{animation:slideIn .2s ease both}
 button:hover{opacity:0.85}
@@ -3177,9 +3188,10 @@ function PhotoCard({ fdata, side, height = 140 }) {
   const imgSrc = ufcSrc || (wikiUrl && !wikiErr ? wikiUrl : null);
 
   return (
-    <div style={{ position: "relative", height, background: "#ffffff", overflow: "hidden" }}>
-      {/* Subtle vignette at bottom */}
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.04) 100%)", zIndex: 1, pointerEvents: "none" }} />
+    <div style={{ position: "relative", height, background: "#12121a", overflow: "hidden" }}>
+      {/* Dark vignette */}
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.55) 100%)", zIndex: 1, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45) 100%)", zIndex: 1, pointerEvents: "none" }} />
 
       {imgSrc ? (
         <img
@@ -3195,29 +3207,12 @@ function PhotoCard({ fdata, side, height = 140 }) {
         />
       ) : (
         <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2 }}>
-          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#f0f2f8", border: "2px solid #e2e5ef", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontFamily: "Inter Tight,Inter,sans-serif", fontWeight: 900, fontSize: 20, color: "#9da3b8" }}>{initials}</span>
+          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#1e1e2a", border: "2px solid #2a2a3a", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontFamily: "Inter Tight,Inter,sans-serif", fontWeight: 900, fontSize: 20, color: "#4a4a6a" }}>{initials}</span>
           </div>
         </div>
       )}
 
-      {/* Frosted flag strip */}
-      <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 4,
-        background: "rgba(255,255,255,0.82)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-        borderTop: "1px solid rgba(0,0,0,0.06)",
-        padding: "5px 9px",
-        display: "flex", alignItems: "center",
-        justifyContent: side === "f1" ? "flex-start" : "flex-end",
-        gap: 5,
-      }}>
-        <span style={{ fontSize: 15, lineHeight: 1 }}>{fdata?.flag || "🏳️"}</span>
-        <span style={{ fontFamily: "Inter,Arial,sans-serif", fontSize: 9, fontWeight: 800, color: "#1a1d2e", letterSpacing: 0.9, textTransform: "uppercase" }}>
-          {fdata?.nationality || ""}
-        </span>
-      </div>
     </div>
   );
 }
@@ -3229,11 +3224,11 @@ function FighterCard({ fdata, odds, side, picked, onPick, done, isWinner }) {
 
   return (
     <button onClick={onPick} disabled={done}
-      style={{ background: isPicked ? (side === "f1" ? "#eef2ff" : "#fff0f0") : otherPicked ? "#f5f6fa" : "#ffffff",
-        border: `2px solid ${isPicked ? (side === "f1" ? "#0057e8" : "#e8001c") : "#e2e5ef"}`,
+      style={{ background: isPicked ? (side === "f1" ? "#0d1a3a" : "#2a0a0e") : otherPicked ? "#0e0e14" : "#12121a",
+        border: `2px solid ${isPicked ? (side === "f1" ? "#1a3a8a" : "#8a1a1a") : "#1e1e2a"}`,
         borderRadius: 12, padding: 0, cursor: done ? "default" : "pointer",
         textAlign: side === "f1" ? "left" : "right", width: "100%", overflow: "hidden",
-        transition: "all .15s", opacity: otherPicked ? 0.55 : 1 }}>
+        transition: "all .15s", opacity: otherPicked ? 0.45 : 1 }}>
 
       {/* Photo area with overlays */}
       <div style={{ position: "relative" }}>
@@ -3259,13 +3254,13 @@ function FighterCard({ fdata, odds, side, picked, onPick, done, isWinner }) {
         )}
       </div>
 
-      {/* Name + nationality row */}
-      <div style={{ padding: "8px 10px 10px" }}>
-        <div style={{ ...cond, fontWeight: 900, fontSize: 16, letterSpacing: "-0.2px", color: "#0d0f14", lineHeight: 1.15, marginBottom: 3 }}>{fdata?.name || "—"}</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: side === "f2" ? "flex-end" : "flex-start" }}>
-          {fdata?.flag && <span style={{ fontSize: 11 }}>{fdata.flag}</span>}
-          <span style={{ ...sans, fontSize: 10, fontWeight: 600, color: "#9da3b8" }}>{fdata?.nationality}</span>
-          {fdata?.record && <span style={{ ...sans, fontSize: 10, fontWeight: 700, color: "#6b7280" }}>· {fdata.record}</span>}
+      {/* Name + flag row */}
+      <div style={{ padding: "8px 10px 10px", background: "#16161f", borderTop: "1px solid #1e1e2a" }}>
+        <div style={{ ...cond, fontWeight: 900, fontSize: 16, letterSpacing: "-0.2px", color: "#f0f0f8", lineHeight: 1.15, marginBottom: 5 }}>{fdata?.name || "—"}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: side === "f2" ? "flex-end" : "flex-start" }}>
+          {fdata?.flag && <span style={{ fontSize: 18, lineHeight: 1, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.5))" }}>{fdata.flag}</span>}
+          <span style={{ ...sans, fontSize: 10, fontWeight: 600, color: "#4a4a6a" }}>{fdata?.nationality}</span>
+          {fdata?.record && <span style={{ ...sans, fontSize: 10, fontWeight: 700, color: "#3a3a55" }}>· {fdata.record}</span>}
         </div>
       </div>
     </button>
@@ -3281,25 +3276,25 @@ function FightRow({ fight, picks, onPick }) {
   const f2data = fd?.f2;
 
   return (
-    <div style={{ borderBottom: "1px solid #e2e5ef", paddingBottom: 28, marginBottom: 28 }}>
+    <div style={{ borderBottom: "1px solid #1e1e2a", paddingBottom: 28, marginBottom: 28 }}>
       {/* Weight class + result badge */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-        <span style={{ ...mono, fontSize: 8, color: "#7a7f96", letterSpacing: 1 }}>{fight.wc}</span>
-        {done && fight.winner && <span style={{ ...sans, fontSize: 11, fontWeight: 700, color: "#007a4d", background: "#e6f7f0", padding: "3px 10px", borderRadius: 20 }}>✓ {fight.winner} · {fight.method}</span>}
+        <span style={{ ...mono, fontSize: 8, color: "#3a3a55", letterSpacing: 1 }}>{fight.wc}</span>
+        {done && fight.winner && <span style={{ ...sans, fontSize: 11, fontWeight: 700, color: "#4caf7d", background: "rgba(76,175,125,0.12)", padding: "3px 10px", borderRadius: 20 }}>✓ {fight.winner} · {fight.method}</span>}
       </div>
 
       {/* Fighter photo cards */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 28px 1fr", marginBottom: 10, gap: 0 }}>
         <FighterCard fdata={f1data} odds={fight.f1odds} side="f1" picked={p} onPick={() => !done && onPick(fight.id, "f1")} done={done} isWinner={done && fight.winner === fight.f1} />
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "#f0f2f8", zIndex: 1 }}>
-          <span style={{ ...mono, fontSize: 8, fontWeight: 800, color: "#9da3b8" }}>vs</span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "#0e0e14", zIndex: 1 }}>
+          <span style={{ ...mono, fontSize: 8, fontWeight: 800, color: "#2a2a40" }}>vs</span>
         </div>
         <FighterCard fdata={f2data} odds={fight.f2odds} side="f2" picked={p} onPick={() => !done && onPick(fight.id, "f2")} done={done} isWinner={done && fight.winner === fight.f2} />
       </div>
 
       {!done && (
         <div>
-          <button onClick={() => setOpen(o => !o)} style={{ background: "none", border: "none", ...sans, fontSize: 13, fontWeight: 700, color: open ? "#0057e8" : "#6b7280", letterSpacing: 0, cursor: "pointer", padding: "6px 0", transition: "color .15s" }}>
+          <button onClick={() => setOpen(o => !o)} style={{ background: "none", border: "none", ...sans, fontSize: 13, fontWeight: 700, color: open ? "#e53935" : "#3a3a55", letterSpacing: 0, cursor: "pointer", padding: "6px 0", transition: "color .15s" }}>
             {open ? "▲ COLLAPSE" : "▼ FIGHTER INTELLIGENCE"}
           </button>
           {open && <IntelPanel fightId={fight.id} />}
@@ -3308,10 +3303,10 @@ function FightRow({ fight, picks, onPick }) {
 
       {p && !done && (
         <div style={{ marginTop: 7, display: "flex", alignItems: "center", gap: 6 }}>
-          <div style={{ width: 4, height: 4, borderRadius: "50%", background: p === "f1" ? "#7a7f96" : "#ff3d57" }} />
-          <span style={{ ...mono, fontSize: 8, color: "#7a7f96", letterSpacing: 1 }}>PICK:</span>
-          <span style={{ ...cond, fontWeight: 700, fontSize: 14, color: "#444858" }}>{p === "f1" ? fight.f1 : fight.f2}</span>
-          <span style={{ ...sans, fontSize: 15, fontWeight: 800, color: isFav(p === "f1" ? fight.f1odds : fight.f2odds) ? "#e8001c" : "#007a4d" }}>{p === "f1" ? fight.f1odds : fight.f2odds}</span>
+          <div style={{ width: 4, height: 4, borderRadius: "50%", background: p === "f1" ? "#3a5aaa" : "#e53935" }} />
+          <span style={{ ...mono, fontSize: 8, color: "#3a3a55", letterSpacing: 1 }}>PICK:</span>
+          <span style={{ ...cond, fontWeight: 700, fontSize: 14, color: "#9090b8" }}>{p === "f1" ? fight.f1 : fight.f2}</span>
+          <span style={{ ...sans, fontSize: 15, fontWeight: 800, color: isFav(p === "f1" ? fight.f1odds : fight.f2odds) ? "#e53935" : "#4caf7d" }}>{p === "f1" ? fight.f1odds : fight.f2odds}</span>
         </div>
       )}
     </div>
@@ -3448,49 +3443,77 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f7f8fc", color: "#0d0f14", ...sans }}>
+    <div style={{ minHeight: "100vh", background: "#0e0e14", color: "#f0f0f8", ...sans }}>
       <style>{CSS}</style>
 
-      <div style={{ borderBottom: "1px solid #e4e6f0", padding: "18px 20px 0", maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ marginBottom: 14 }}>
-          <div style={{ ...mono, fontSize: 10, color: "#e8001c", letterSpacing: 3, marginBottom: 6, fontWeight: 800, textTransform: "uppercase" }}>UFC · SPORTSBOOK INTELLIGENCE</div>
-          <div style={{ ...cond, fontWeight: 900, fontSize: "clamp(22px,4vw,40px)", letterSpacing: 1, lineHeight: 1, color: "#111318" }}>{event.name.toUpperCase()}</div>
-          <div style={{ ...mono, fontSize: 7, color: "#8a8fa8", marginTop: 4, letterSpacing: 1, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <span>{event.date} · {event.fights.length} BOUTS{pickCount > 0 ? ` · ${pickCount}/${upcoming.length} PICKS` : ""}</span>
+      {/* ── HEADER ── */}
+      <div style={{ borderBottom: "1px solid #1e1e2a", padding: "18px 20px 0", maxWidth: 900, margin: "0 auto", position: "sticky", top: 0, background: "#0e0e14", zIndex: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+
+          {/* FightIQ Logo */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <svg className="oct-glow" viewBox="0 0 110 110" width="34" height="34">
+              <polygon points="33,4 77,4 106,33 106,77 77,106 33,106 4,77 4,33"
+                fill="#110608" stroke="#e53935" strokeWidth="4"/>
+              <polyline className="wave-draw"
+                points="20,55 30,55 38,32 42,78 46,55 60,55 64,38 68,72 72,55 90,55"
+                fill="none" stroke="#e53935" strokeWidth="5.5"
+                strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div style={{ display: "flex", alignItems: "baseline" }}>
+              <span style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, color: "#f0f0f8", letterSpacing: "0.04em", lineHeight: 1 }}>FIGHT</span>
+              <span className="iq-glow" style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, letterSpacing: "0.04em", lineHeight: 1, background: "linear-gradient(135deg,#ff6535,#e53935)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>IQ</span>
+            </div>
+          </div>
+
+          {/* Right — odds status + live badge */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             {ODDS_KEY && (
               <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 {oddsLoading
-                  ? <span style={{ color: "#f5a623" }}>● UPDATING ODDS...</span>
+                  ? <span style={{ ...mono, fontSize: 8, color: "#f5a623", letterSpacing: 1 }}>● UPDATING...</span>
                   : lastUpdate
-                    ? <><span style={{ color: "#007a4d" }}>● LIVE ODDS</span><span style={{ color: "#9da3b8" }}>· {lastUpdate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span></>
+                    ? <span style={{ ...mono, fontSize: 8, color: "#4caf7d", letterSpacing: 1 }}>● LIVE</span>
                     : null
                 }
-                <button onClick={refreshOdds} style={{ background: "none", border: "none", cursor: "pointer", color: "#0057e8", fontSize: 9, fontFamily: "Inter,sans-serif", fontWeight: 700, padding: "0 2px" }}>↻</button>
+                <button onClick={refreshOdds} style={{ background: "none", border: "none", cursor: "pointer", color: "#e53935", fontSize: 13, padding: "0 2px" }}>↻</button>
               </span>
             )}
+            <div style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(229,57,53,0.1)", border: "1px solid rgba(229,57,53,0.2)", borderRadius: 20, padding: "4px 10px" }}>
+              <span className="live-dot" />
+              <span style={{ ...mono, fontSize: 9, fontWeight: 700, color: "#e53935", letterSpacing: "0.1em" }}>{event.name.split(":")[0].replace("UFC ","")}</span>
+            </div>
           </div>
         </div>
-        <div style={{ display: "flex" }}>
+
+        {/* Event meta */}
+        <div style={{ ...mono, fontSize: 7, color: "#2a2a45", letterSpacing: 2, marginBottom: 10 }}>
+          {event.date} · {event.fights.length} BOUTS{pickCount > 0 ? ` · ${pickCount}/${upcoming.length} PICKS` : ""}
+        </div>
+
+        {/* Event tabs */}
+        <div style={{ display: "flex", overflowX: "auto", scrollbarWidth: "none" }}>
           {EVENTS.map((e, i) => (
-            <button key={i} onClick={() => setEv(i)} style={{ background: "none", border: "none", borderBottom: ev === i ? "3px solid #e8001c" : "3px solid transparent", padding: "10px 16px", ...sans, fontSize: 13, fontWeight: 700, color: ev === i ? "#0d0f14" : "#8a90a8", letterSpacing: 1, cursor: "pointer", whiteSpace: "nowrap", transition: "all .15s" }}>
+            <button key={i} onClick={() => setEv(i)} style={{ background: "none", border: "none", borderBottom: ev === i ? "2px solid #e53935" : "2px solid transparent", padding: "10px 14px", fontFamily: "Inter,sans-serif", fontSize: 12, fontWeight: 700, color: ev === i ? "#f0f0f8" : "#2a2a45", letterSpacing: 1, cursor: "pointer", whiteSpace: "nowrap", transition: "all .15s", flexShrink: 0 }}>
               {e.status === "completed" ? "✓ " : ""}{e.name.split(":")[0]}
             </button>
           ))}
         </div>
       </div>
 
+      {/* ── BODY ── */}
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "20px 16px 100px" }}>
         <div className="fu">
           {fightsWithLiveOdds.map(fight => <FightRow key={fight.id} fight={fight} picks={picks} onPick={onPick} />)}
 
           {pickCount > 0 && pickCount === upcoming.length && (
-            <div style={{ border: "1px solid #dde0ea", borderRadius: 5, padding: 18, background: "#f8f9fc", marginTop: 8 }} className="fu">
-              <div style={{ ...mono, fontSize: 7, color: "#8a8fa8", letterSpacing: 3, marginBottom: 13 }}>YOUR CARD</div>
+            <div style={{ border: "1px solid #1e1e2a", borderRadius: 8, padding: 18, background: "#12121a", marginTop: 8 }} className="fu">
+              <div style={{ ...mono, fontSize: 7, color: "#3a3a55", letterSpacing: 3, marginBottom: 13 }}>YOUR CARD</div>
               {upcoming.map(fight => {
                 const side = picks[fight.id], name = side === "f1" ? fight.f1 : fight.f2, odds = side === "f1" ? fight.f1odds : fight.f2odds;
-                return <div key={fight.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e4e6f0", paddingBottom: 7, marginBottom: 7 }}>
-                  <div><span style={{ ...mono, fontSize: 7, color: "#aab0c8", marginRight: 8 }}>{fight.wc.split("·")[0].trim()}</span><span style={{ ...cond, fontWeight: 900, fontSize: 16 }}>{name}</span></div>
-                  {odds && <span style={{ ...mono, fontSize: 13, color: isFav(odds) ? "#ff3d57" : "#00e5a0" }}>{odds}</span>}
+                return <div key={fight.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #1e1e2a", paddingBottom: 7, marginBottom: 7 }}>
+                  <div><span style={{ ...mono, fontSize: 7, color: "#2a2a40", marginRight: 8 }}>{fight.wc.split("·")[0].trim()}</span><span style={{ ...cond, fontWeight: 900, fontSize: 16, color: "#f0f0f8" }}>{name}</span></div>
+                  {odds && <span style={{ ...mono, fontSize: 13, color: isFav(odds) ? "#e53935" : "#4caf7d" }}>{odds}</span>}
                 </div>;
               })}
             </div>
