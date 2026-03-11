@@ -218,6 +218,44 @@ const FIGHT_DATA = {
       upset:     { v:"EDGE", who:"Josh Emmett", dogOdds:"+155", historicalWinRate:"39%", impliedProb:39, modelProb:28, edge:-11, note:"Dogs at +155 in UFC featherweight main events win approximately 39% historically. Our model puts Vallejos at 28% — meaning the market is slightly overvaluing him. This is a mild fade-the-dog signal. Back Emmett with confidence." },
       parlays:   { v:"EDGE", who:"Josh Emmett", bestLeg:"Emmett ML -185", correlation:"Emmett KO/TKO correlates strongly with early finish props", avoid:"Emmett by decision — he almost never goes that route", stack:"Emmett KO/TKO + Under 1.5 rounds (correlated)", note:"The natural parlay is Emmett ML + KO/TKO method. These are highly correlated — if Emmett wins it's almost always by KO. Avoid mixing Emmett win with over 2.5 rounds as these anti-correlate strongly." },
     },
+    styleAnalysis: {
+      f1Style: {
+        archetype: "KO Artist / Pressure Striker",
+        vsStyles: [
+          { label: "vs Wrestler", pct: 71, note: "Emmett's KO power neutralizes takedown-heavy fighters" },
+          { label: "vs BJJ Specialist", pct: 64, note: "Strong enough chin to survive early grappling" },
+          { label: "vs Pressure Fighter", pct: 68, note: "Counter-punches well when opponents charge in" },
+          { label: "vs Counter Fighter", pct: 55, note: "Struggles when opponent is disciplined and patient" },
+          { label: "vs Muay Thai Striker", pct: 60, note: "Vulnerable to leg kicks and body attacks" },
+        ],
+        strengths: ["One-punch KO power", "Pressure walking forward", "Early round urgency"],
+        weaknesses: ["Chin has been cracked (post-KO syndrome)", "Fades in championship rounds"],
+      },
+      f2Style: {
+        archetype: "Pressure Fighter / Finisher",
+        vsStyles: [
+          { label: "vs KO Artist", pct: 44, note: "Power differential is the primary risk" },
+          { label: "vs Boxer", pct: 58, note: "Uses reach well to disrupt technical boxers" },
+          { label: "vs Wrestler", pct: 62, note: "Strong sub game makes wrestling exchanges dangerous" },
+          { label: "vs Counter Fighter", pct: 66, note: "Overwhelms counters with volume and pace" },
+          { label: "vs Muay Thai Striker", pct: 51, note: "Gets tagged when opponents use range effectively" },
+        ],
+        strengths: ["Relentless pressure", "High finish rate (81%)", "3-inch reach advantage"],
+        weaknesses: ["Gets dropped by pure power", "Vulnerable to straight counters"],
+      },
+      clash: {
+        matchupLabel: "KO Artist vs Pressure Fighter",
+        historicalPct: 62,
+        edge: "Josh Emmett",
+        analysis: "Historically KO Artists win 62% against Pressure Fighters in featherweight. The key dynamic: pressure fighters close distance and eat the power shot doing it. Emmett's career is built on this exact outcome — he loads up and waits. Vallejos charges and throws — right into Emmett's wheelhouse.",
+        sharpAngle: "Sharps back KO Artists as slight favorites against pressure fighters in short-to-mid range fights. Emmett at -185 is in line with historical win rates. The sharp play is Emmett ML + Under 1.5 rounds given how this style clash tends to end.",
+      },
+      keyQuestions: [
+        { question: "Can Vallejos take an Emmett shot clean?", answer: "His chin is rated 7/10 and he's never been stopped, but no one at featherweight hits like Emmett. This is the single biggest unknown." },
+        { question: "Does Emmett's post-KO syndrome show up?", answer: "After his KO loss to Kattar, Emmett's chin has been questioned. If Vallejos lands early, the fight changes completely." },
+        { question: "Can Vallejos use his reach advantage?", answer: "3 inches of reach sounds great but Emmett fights inside — he closes distance before opponents can use it." },
+      ],
+    },
   },
 
   e2: {
@@ -303,6 +341,44 @@ const FIGHT_DATA = {
       oppqual:   { v:"EDGE", who:"Amanda Lemos", f1AvgRank:7.8, f2AvgRank:14.2, f1EliteWins:["Andrade","Dern","Xiaonan"], f2EliteWins:["Godinez","Viana"], note:"Lemos has beaten ranked contenders consistently — Andrade, Dern, and Xiaonan are legitimate top-10 opponents. Robertson's wins are against lower-ranked fighters. The quality gap is significant at this level." },
       upset:     { v:"PUSH", who:"PUSH", dogOdds:"+120", historicalWinRate:"45%", impliedProb:45, modelProb:38, edge:-7, note:"Dogs at +120 in UFC strawweight win roughly 45% historically. Model puts Robertson at 38% — mild market overvaluation of Robertson. Not enough edge to confidently fade the public here. Call it a push." },
       parlays:   { v:"EDGE", who:"Amanda Lemos", bestLeg:"Lemos ML -145", correlation:"Lemos win correlates with Over 2.5 rounds — she wins decisions", avoid:"Lemos KO/TKO — she rarely finishes that way", stack:"Lemos ML + Over 2.5 rounds (highly correlated)", note:"Stack Lemos ML with Over 2.5 rounds — her 54% decision rate means if she wins, it almost certainly goes the distance. Avoid pairing her with early finish props. Robertson submission is worth a small play as a standalone prop." },
+    },
+    styleAnalysis: {
+      f1Style: {
+        archetype: "Submission Specialist / Pressure Grappler",
+        vsStyles: [
+          { label: "vs BJJ Specialist", pct: 55, note: "Lemos is herself elite on the mat — but it's a coin flip" },
+          { label: "vs Wrestler", pct: 72, note: "Lemos's sub game exploits wrestling-heavy fighters" },
+          { label: "vs Striker", pct: 68, note: "Above-average striking with elite submission threat" },
+          { label: "vs Pressure Fighter", pct: 61, note: "TD defense (76%) keeps exchanges standing" },
+          { label: "vs Counter Fighter", pct: 58, note: "Works best when she initiates, not reacts" },
+        ],
+        strengths: ["Elite TD defense (76%)", "Submission avg 2.1/15min", "Striker with BJJ backup"],
+        weaknesses: ["Fades in round 3", "Absorbs damage when grappling exchanges go long"],
+      },
+      f2Style: {
+        archetype: "Elite Submission Artist",
+        vsStyles: [
+          { label: "vs Striker", pct: 48, note: "Takes damage standing before getting to the mat" },
+          { label: "vs BJJ Specialist", pct: 52, note: "Sub game is world-class but so is opponent's" },
+          { label: "vs Wrestler", pct: 71, note: "Wrestlers give Robertson the grappling she wants" },
+          { label: "vs Pressure Fighter", pct: 60, note: "Uses cage to set up takedowns against pressurers" },
+          { label: "vs Counter Fighter", pct: 55, note: "Methodical enough to draw out counter fighters" },
+        ],
+        strengths: ["Sub avg 4.4/15min (elite)", "Never KO'd in career", "Improves as fights go longer"],
+        weaknesses: ["Poor striker (absorbs more than she lands)", "TD defense only 43%"],
+      },
+      clash: {
+        matchupLabel: "Sub Grappler vs Sub Grappler",
+        historicalPct: 55,
+        edge: "Amanda Lemos",
+        analysis: "When two submission specialists meet, the edge goes to whoever can keep it standing or has the superior TD defense. Lemos wins this category convincingly — her 76% TD defense against Robertson's 43% is the defining stat. Robertson needs this fight on the mat; Lemos is built to stop exactly that.",
+        sharpAngle: "Sharps historically back the fighter with superior TD defense in mirror grappling matchups. Lemos at -145 reflects this — she controls where the fight happens. The smart prop is Over 2.5 rounds since neither fighter has the striking KO power to end it early.",
+      },
+      keyQuestions: [
+        { question: "Can Robertson get the fight to the ground?", answer: "Her 62% TD accuracy vs Lemos's 76% TD defense is the matchup within the matchup. Robertson needs multiple attempts per round to succeed." },
+        { question: "Does Lemos's striking keep Robertson honest?", answer: "Lemos lands 4.23 sig strikes/min — Robertson absorbs 3.96. The striking volume should give Lemos control of distance and positioning." },
+        { question: "Who wins the late rounds?", answer: "Robertson's pace improves round-over-round. Lemos fades. If this goes to round 3, Robertson becomes dangerous." },
+      ],
     },
   },
 
@@ -392,6 +468,44 @@ const FIGHT_DATA = {
       upset:     { v:"EDGE", who:"Oumar Sy", dogOdds:"+110", historicalWinRate:"47%", impliedProb:47, modelProb:22, edge:-25, note:"Cutelaba at +110 implies a 47% win probability. Our model puts him at 22% — a massive -25% edge. This is one of the sharpest fade-the-dog signals on the card. Back Sy at -135 with high confidence." },
       parlays:   { v:"EDGE", who:"Oumar Sy", bestLeg:"Sy ML -135", correlation:"Sy win correlates with KO/TKO finish", avoid:"Cutelaba ML — public overvalues his KO power", stack:"Sy ML + Under 1.5 rounds (highly correlated)", note:"Sy ML + Under 1.5 rounds is the strongest correlated parlay on the card. Both men finish early when they win. The under is the best standalone prop on the entire Emmett vs Vallejos card." },
     },
+    styleAnalysis: {
+      f1Style: {
+        archetype: "Wild KO Artist / Brawler",
+        vsStyles: [
+          { label: "vs Technical Striker", pct: 38, note: "Gets outboxed by disciplined fighters — Ankalaev KO'd him twice" },
+          { label: "vs Wrestler", pct: 61, note: "Wrestling dulls his KO power but he's hard to hold down" },
+          { label: "vs Pressure Fighter", pct: 55, note: "Brawling exchanges favor him when he connects first" },
+          { label: "vs BJJ Specialist", pct: 52, note: "Gets into trouble on the mat but rarely submitted" },
+          { label: "vs Athletic Finisher", pct: 35, note: "Against complete fighters with KO power, Cutelaba loses badly" },
+        ],
+        strengths: ["Explosive first-round power", "Hard to finish (never submitted)", "Unpredictable attacks"],
+        weaknesses: ["No chin (post-KO syndrome confirmed)", "Fades dramatically after R1", "Mental fragility under pressure"],
+      },
+      f2Style: {
+        archetype: "Versatile Finisher / Athletic Striker",
+        vsStyles: [
+          { label: "vs Brawler", pct: 74, note: "Sy's technical edge is maximized vs wild fighters" },
+          { label: "vs Wrestler", pct: 62, note: "TD defense (72%) protects against wrestling-heavy styles" },
+          { label: "vs Pressure Fighter", pct: 68, note: "Counters pressure with sharp combinations" },
+          { label: "vs BJJ Specialist", pct: 60, note: "Submission game is solid but not elite" },
+          { label: "vs Technical Striker", pct: 58, note: "Can be outworked by pure boxers — his one UFC loss" },
+        ],
+        strengths: ["3-inch reach advantage", "Absorbs only 2.87 sig strikes/min", "Chin rated 8/10"],
+        weaknesses: ["Only 11-1 pro record — limited data", "Lost to pure decision fighter (Dumas)"],
+      },
+      clash: {
+        matchupLabel: "Brawler vs Technical Striker",
+        historicalPct: 71,
+        edge: "Oumar Sy",
+        analysis: "Technical strikers beat wild brawlers 71% of the time at light heavyweight in UFC data. The reason is simple: brawlers rely on landing the first big shot, and technical strikers are disciplined enough not to walk into it. Sy has 3 inches of reach and a clean chin — he can outwork Cutelaba from the outside without needing to brawl.",
+        sharpAngle: "Sharps almost always back technical strikers vs brawlers because the historical win rate is so high. Cutelaba at +110 implies 47% — sharps model him at 22%. This is one of the clearest sharp vs public splits on the card. Sy ML + Under 1.5 is the strongest correlated play.",
+      },
+      keyQuestions: [
+        { question: "Can Cutelaba land the one big shot early?", answer: "His R1 strike rate is 6.8/min — by far his highest output. If he doesn't hurt Sy in R1, his power fades dramatically." },
+        { question: "Does Sy respect the power or box freely?", answer: "Sy absorbs only 2.87 strikes/min — the lowest on this card. He's disciplined enough to stay outside and not get reckless." },
+        { question: "What happens if this goes past R1?", answer: "Cutelaba's pace drops from 6.8 in R1 to 3.1 in R3 — a 54% fade. Sy actually gets stronger. Round 2 and beyond is completely Sy's fight." },
+      ],
+    },
   },
 
   e4: {
@@ -478,6 +592,44 @@ const FIGHT_DATA = {
       oppqual:   { v:"EDGE", who:"Vitor Petrino", f1AvgRank:12.4, f2AvgRank:24.8, f1EliteWins:["Tybura","Romanov"], f2EliteWins:["Arlovski","Brzeski"], note:"Petrino's wins over Tybura and Romanov are legitimate ranked heavyweight wins. Asplund's best wins are over aging veterans Arlovski and Brzeski. The quality gap is significant — Petrino is operating at a higher level." },
       upset:     { v:"EDGE", who:"Vitor Petrino", dogOdds:"+165", historicalWinRate:"38%", impliedProb:38, modelProb:14, edge:-24, note:"Asplund at +165 implies 38% win probability. Model puts him at 14% — a staggering -24% edge. This is the second-sharpest fade signal on the card. The market is significantly overvaluing Asplund's upset potential." },
       parlays:   { v:"EDGE", who:"Vitor Petrino", bestLeg:"Petrino ML -200", correlation:"Petrino win + KO/TKO method are nearly identical outcomes", avoid:"Petrino by decision — almost never happens", stack:"Petrino ML + Under 1.5 rounds at heavyweight (high value)", note:"Petrino ML is the strongest favorite play on the card. Pair with Under 1.5 rounds for a correlated heavyweight parlay. At -200 the ML alone is steep but justified. The under at heavyweight between two KO artists is excellent standalone value." },
+    },
+    styleAnalysis: {
+      f1Style: {
+        archetype: "Athletic Power Striker",
+        vsStyles: [
+          { label: "vs Brawler", pct: 78, note: "Petrino's reach and accuracy punish wild swinging heavyweights" },
+          { label: "vs Wrestler", pct: 65, note: "TD defense (74%) keeps him upright where he's dangerous" },
+          { label: "vs Pressure Fighter", pct: 72, note: "Long jab controls distance against pressure-based opponents" },
+          { label: "vs Technical Boxer", pct: 60, note: "Can be outworked by pure boxers over 3 rounds" },
+          { label: "vs Submission Specialist", pct: 68, note: "Rarely taken down — keeps fights standing" },
+        ],
+        strengths: ["4-inch reach advantage over Asplund", "Net +2.22 strikes/min (best on card)", "Never KO'd — solid chin (8/10)"],
+        weaknesses: ["Only 1 loss but it was a decision — cardio questions exist", "Limited title-level opposition"],
+      },
+      f2Style: {
+        archetype: "Heavy Hands / Brawler",
+        vsStyles: [
+          { label: "vs Technical Striker", pct: 33, note: "Gets outworked by reach-heavy technical fighters" },
+          { label: "vs Wrestler", pct: 55, note: "Decent against wrestling-heavy opponents" },
+          { label: "vs Pressure Fighter", pct: 58, note: "Brawling exchanges give him KO opportunities" },
+          { label: "vs Athletic Finisher", pct: 38, note: "Complete fighters expose his defensive gaps" },
+          { label: "vs Submission Specialist", pct: 52, note: "Average ground defense but hard to hold down" },
+        ],
+        strengths: ["Heavy KO power (6 KOs in 10 wins)", "Contract year motivation", "Henri Hooft striking coaching"],
+        weaknesses: ["Absorbs 5.22 strikes/min (worst on card)", "Post-KO syndrome (stopped by Vanderaa)", "4 inches shorter reach"],
+      },
+      clash: {
+        matchupLabel: "Athletic Striker vs Heavy-Handed Brawler",
+        historicalPct: 73,
+        edge: "Vitor Petrino",
+        analysis: "Athletic technical strikers beat heavy-handed brawlers 73% of the time at heavyweight — the reach and accuracy advantages compound over time. Petrino is +2.22 net strikes/min, meaning he out-lands AND absorbs less. Asplund gets tagged 5.22 times/min — Petrino will find the target early and often.",
+        sharpAngle: "This is a sharp consensus fight — -200 on Petrino is strong but the model supports it. Asplund at +165 implies 38% but sharps model him at 14%. The real sharp play is Petrino ML stacked with Under 1.5 rounds — heavyweight finishes happen fast and both fighters have 40%+ R1 finish rates.",
+      },
+      keyQuestions: [
+        { question: "Does Asplund's contract year desperation matter?", answer: "Contract year fighters historically overperform by 8-12% in win probability models. Asplund fighting for his UFC career is real motivation — but Petrino's physical advantages are too large to overcome with heart alone." },
+        { question: "Can Asplund land the equalizer?", answer: "He has genuine KO power and heavyweights can always land one. His 40% R1 finish rate means the first 5 minutes are genuinely dangerous for Petrino." },
+        { question: "What if this goes past round 1?", answer: "Petrino's pace is remarkably consistent (6.1 R1, 5.4 R2, 4.8 R3). Asplund fades harder. The longer this goes, the more dominant Petrino becomes." },
+      ],
     },
   },
 
@@ -567,6 +719,44 @@ const FIGHT_DATA = {
       upset:     { v:"PUSH", who:"PUSH", dogOdds:"+115", historicalWinRate:"46%", impliedProb:46, modelProb:41, edge:-5, note:"Delgado at +115 implies 46% win probability. Model puts him at 41% — a small -5% edge, essentially noise. This is genuinely a coin-flip fight statistically. The market has this priced almost perfectly. No clear upset value either way." },
       parlays:   { v:"PUSH", who:"PUSH", bestLeg:"Over 2.5 rounds", correlation:"Fili win correlates with decision — he almost never finishes", avoid:"Fili KO/TKO — he has the power but rarely uses it cleanly", stack:"Over 2.5 rounds is the standalone play — avoid ML parlays here", note:"The cleanest play on this fight is the over — both fighters trend to decisions. Avoid using either ML as a parlay leg given the genuine competitiveness. If you must parlay, Delgado submission is interesting given Herb Dean's quick stoppage when subs are locked." },
     },
+    styleAnalysis: {
+      f1Style: {
+        archetype: "Experienced Boxer / Counter Fighter",
+        vsStyles: [
+          { label: "vs Submission Specialist", pct: 52, note: "Fili's TD defense (59%) is average — sub threats are real" },
+          { label: "vs Wrestler", pct: 60, note: "Gets taken down but works off his back reasonably well" },
+          { label: "vs Pressure Fighter", pct: 65, note: "Counter punching rewards aggressive opponents" },
+          { label: "vs Technical Boxer", pct: 58, note: "Experienced enough to compete with pure boxers" },
+          { label: "vs Muay Thai Striker", pct: 54, note: "Vulnerable to body attacks and leg kicks" },
+        ],
+        strengths: ["Decade of UFC experience", "Counter punching IQ", "Rarely finishes but rarely gets finished"],
+        weaknesses: ["Post-KO syndrome (stopped twice recently)", "TD defense only 59%", "Fade in championship rounds"],
+      },
+      f2Style: {
+        archetype: "Submission Specialist / Aggressive Finisher",
+        vsStyles: [
+          { label: "vs Experienced Boxer", pct: 48, note: "Young fighters struggle with veteran ring generalship" },
+          { label: "vs Counter Fighter", pct: 51, note: "Aggressive style walks into counters from patient opponents" },
+          { label: "vs Wrestler", pct: 64, note: "Submission game is elite against wrestling-focused fighters" },
+          { label: "vs Pressure Fighter", pct: 62, note: "Matches well with fighters who like to engage" },
+          { label: "vs BJJ Specialist", pct: 57, note: "Sub game holds up but elite BJJ pushes him" },
+        ],
+        strengths: ["Sub avg 2.8/15min", "Only 2 pro losses — still developing", "Net +1.07 strike differential"],
+        weaknesses: ["Only 1 UFC fight — unknown at this level", "Youth against veteran experience"],
+      },
+      clash: {
+        matchupLabel: "Counter Boxer vs Submission Specialist",
+        historicalPct: 54,
+        edge: "PUSH",
+        analysis: "Counter boxers vs submission specialists at featherweight is nearly 50/50 historically — 54% to the boxer. The key variable is takedown defense: if Fili keeps it standing (59% TD defense, average), his experience wins. If Delgado gets takedowns and finds submissions, the fight flips. The near-even line (-130/+115) correctly reflects this genuine uncertainty.",
+        sharpAngle: "Sharps are split on this fight — the near-even line tells you the market has no consensus. The clearest sharp play is Over 2.5 rounds since Fili goes to decision 61% of the time and Delgado rarely finishes in R1. Avoid using either fighter's ML in parlays — this fight is a genuine coin flip.",
+      },
+      keyQuestions: [
+        { question: "Can Fili keep it standing?", answer: "His 59% TD defense is below average for featherweight. Delgado attempts takedowns aggressively — expect 3-4 attempts per round. One successful sequence could end the night." },
+        { question: "Does Delgado's UFC inexperience show?", answer: "He has one UFC fight and Fili has been in the UFC since 2013. The pressure of a main card featherweight bout could affect a fighter with only regional experience." },
+        { question: "Which round is most dangerous for Fili?", answer: "Delgado's submission average of 2.8/15min is highest in rounds 2-3 when he's warmed up. If Fili survives a grappling-heavy R1, his experience advantage grows." },
+      ],
+    },
   },
 
   e6: {
@@ -654,6 +844,44 @@ const FIGHT_DATA = {
       oppqual:   { v:"EDGE", who:"Piera Rodriguez", f1AvgRank:9.4, f2AvgRank:18.2, f1EliteWins:["Robertson","Pinheiro","Ricci","Belbita"], f2EliteWins:["Godinez","Lookboonmee"], note:"Rodriguez has a significantly stronger opponent quality profile. Her recent wins over Robertson, Pinheiro, and Ricci are all ranked opponents. Hughes' best wins are against unranked or fringe fighters. The quality differential has widened since their first meeting." },
       upset:     { v:"EDGE", who:"Piera Rodriguez", dogOdds:"+132", historicalWinRate:"43%", impliedProb:43, modelProb:18, edge:-25, note:"Hughes at +132 implies 43% win probability. Model puts her at just 18% — a massive -25% edge. This is the sharpest fade-the-dog signal on the card. Rodriguez is significantly underpriced at -160 given the rematch dynamics and quality gap." },
       parlays:   { v:"EDGE", who:"Piera Rodriguez", bestLeg:"Rodriguez ML -160", correlation:"Rodriguez win + Over 2.5 rounds are strongly correlated", avoid:"Rodriguez KO/TKO — she almost never finishes that way", stack:"Rodriguez ML + Over 2.5 rounds (best correlated parlay on the card)", note:"Rodriguez ML + Over 2.5 rounds is the best correlated parlay on the entire card. She wins decisions 75% of the time. Avoid pairing with early finish props. This parlay likely pays around +110 to +120 and carries high confidence." },
+    },
+    styleAnalysis: {
+      f1Style: {
+        archetype: "Pressure Wrestler / Decision Fighter",
+        vsStyles: [
+          { label: "vs Volume Striker", pct: 72, note: "Takedowns neutralize striker volume — Rodriguez's bread and butter" },
+          { label: "vs BJJ Specialist", pct: 58, note: "Won't grapple for long against elite ground fighters" },
+          { label: "vs Wrestler", pct: 61, note: "Matches well with wrestling-heavy opponents" },
+          { label: "vs Pressure Fighter", pct: 65, note: "Out-pressures opponents with superior conditioning" },
+          { label: "vs Counter Fighter", pct: 68, note: "Overwhelms counters with non-stop forward pressure" },
+        ],
+        strengths: ["5-fight win streak", "TD defense 68%", "Won first meeting convincingly"],
+        weaknesses: ["Almost never finishes (75% decision rate)", "Submission threat when grappling goes wrong"],
+      },
+      f2Style: {
+        archetype: "Volume Striker / Decision Fighter",
+        vsStyles: [
+          { label: "vs Pressure Wrestler", pct: 35, note: "Hughes loses badly to takedown-heavy fighters — lost to Rodriguez before" },
+          { label: "vs Technical Boxer", pct: 52, note: "Volume can work against pure boxers but gets outworked" },
+          { label: "vs BJJ Specialist", pct: 44, note: "TD defense only 48% — gets taken down and controlled" },
+          { label: "vs Southpaw", pct: 58, note: "Southpaw stance creates natural angles for her" },
+          { label: "vs Counter Fighter", pct: 55, note: "Volume approach partially overcomes counter fighters" },
+        ],
+        strengths: ["Southpaw stance creates awkward angles", "Contract year motivation", "Home base advantage (Las Vegas)"],
+        weaknesses: ["Already lost to Rodriguez — psychological disadvantage", "TD defense only 48%", "Net negative strike differential (-0.23)"],
+      },
+      clash: {
+        matchupLabel: "Pressure Wrestler vs Volume Striker (Rematch)",
+        historicalPct: 76,
+        edge: "Piera Rodriguez",
+        analysis: "Rematches where the winner won clearly the first time historically go to the same winner 76% of the time. Rodriguez didn't just beat Hughes — she controlled every minute of their first meeting. Pressure wrestlers beat volume strikers at strawweight 68% of the time, and Rodriguez's 68% TD defense specifically neutralizes Hughes's only path to victory: keeping it standing.",
+        sharpAngle: "Rematches with a clear first-fight winner are one of the sharpest edges in MMA betting. Public money often inflates underdogs in rematches due to 'revenge narrative' bias — but sharps fade this consistently. Rodriguez ML + Over 2.5 rounds is the best correlated parlay on the entire card.",
+      },
+      keyQuestions: [
+        { question: "What does Hughes do differently this time?", answer: "Her team needs a fundamentally different game plan — standing in front of Rodriguez's pressure cost her the first fight. If she can't solve the wrestling, it's the same result." },
+        { question: "Does the rematch psychology help or hurt Rodriguez?", answer: "Rodriguez won clearly and is on a 5-fight streak. She enters with extreme confidence. Rematch pressure typically affects the loser more than the winner." },
+        { question: "Can Hughes's southpaw stance create new problems?", answer: "Southpaw vs orthodox does create angles, and Hughes has had time to game plan specifically for Rodriguez. This is the one real variable — but Rodriguez has been here before." },
+      ],
     },
   },
 };
@@ -942,10 +1170,96 @@ function getBullets(sig, key, f1n, f2n) {
 }
 
 // ─── INTEL PANEL ─────────────────────────────────────────────────────────────
+// ─── STYLE ANALYSIS PANEL ─────────────────────────────────────────────────────
+function StyleAnalysisPanel({ sa, f1, f2 }) {
+  const edgeC = sa.clash.edge === f1.name ? "#0057e8" : sa.clash.edge === f2.name ? "#e8001c" : "#b07d00";
+  const winPctColor = p => p >= 60 ? "#007a4d" : p >= 45 ? "#f5a623" : "#e8001c";
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 12 }} className="fu">
+
+      {/* ── Fighter Style Cards ── */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        {[{ f, data: sa.f1Style }, { f: f2, data: sa.f2Style }].map(({ f: fi, data: st }, idx) => (
+          <div key={fi.name} style={{ background: "#ffffff", border: `2px solid ${idx === 0 ? "#0057e820" : "#e8001c20"}`, borderRadius: 12, padding: "13px", overflow: "hidden" }}>
+            <div style={{ ...sans, fontSize: 10, fontWeight: 700, color: idx === 0 ? "#0057e8" : "#e8001c", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>{fi.name}</div>
+            <div style={{ ...sans, fontWeight: 900, fontSize: 15, color: "#0d0f14", marginBottom: 10 }}>{st.archetype}</div>
+
+            {/* Win % by opponent style */}
+            <div style={{ ...sans, fontSize: 9, fontWeight: 700, color: "#9da3b8", letterSpacing: 2, textTransform: "uppercase", marginBottom: 7 }}>Win % vs Style</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
+              {st.vsStyles.map(({ label, pct, note }) => (
+                <div key={label}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
+                    <span style={{ ...sans, fontSize: 11, fontWeight: 600, color: "#444858" }}>{label}</span>
+                    <span style={{ ...sans, fontSize: 12, fontWeight: 900, color: winPctColor(pct) }}>{pct}%</span>
+                  </div>
+                  <div style={{ height: 4, background: "#eef0f5", borderRadius: 2 }}>
+                    <div style={{ height: 4, width: `${pct}%`, background: winPctColor(pct), borderRadius: 2 }} />
+                  </div>
+                  {note && <div style={{ ...sans, fontSize: 10, fontWeight: 500, color: "#9da3b8", marginTop: 2, fontStyle: "italic" }}>{note}</div>}
+                </div>
+              ))}
+            </div>
+
+            {/* Strengths / Weaknesses */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+              <div style={{ background: "#e6f7f0", borderRadius: 6, padding: "8px" }}>
+                <div style={{ ...sans, fontSize: 8, fontWeight: 800, color: "#007a4d", letterSpacing: 1, marginBottom: 5 }}>STRENGTHS</div>
+                {st.strengths.map((s, i) => <div key={i} style={{ ...sans, fontSize: 11, fontWeight: 600, color: "#0d4a2e", marginBottom: 3 }}>✓ {s}</div>)}
+              </div>
+              <div style={{ background: "#fff5f5", borderRadius: 6, padding: "8px" }}>
+                <div style={{ ...sans, fontSize: 8, fontWeight: 800, color: "#e8001c", letterSpacing: 1, marginBottom: 5 }}>WEAKNESSES</div>
+                {st.weaknesses.map((w, i) => <div key={i} style={{ ...sans, fontSize: 11, fontWeight: 600, color: "#5a1a1a", marginBottom: 3 }}>✗ {w}</div>)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Style Clash Breakdown ── */}
+      <div style={{ background: "#ffffff", border: "2px solid #e2e5ef", borderRadius: 12, padding: "14px", overflow: "hidden" }}>
+        <div style={{ ...sans, fontSize: 9, fontWeight: 800, color: "#9da3b8", letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>⚡ Style Clash Breakdown</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, background: `${edgeC}10`, border: `1px solid ${edgeC}30`, borderRadius: 8, padding: "10px 12px" }}>
+          <div style={{ ...sans, fontWeight: 900, fontSize: 28, color: edgeC, lineHeight: 1 }}>{sa.clash.historicalPct}%</div>
+          <div>
+            <div style={{ ...sans, fontSize: 9, fontWeight: 700, color: "#9da3b8", textTransform: "uppercase", letterSpacing: 1 }}>{sa.clash.matchupLabel}</div>
+            <div style={{ ...sans, fontSize: 12, fontWeight: 700, color: edgeC }}>Edge: {sa.clash.edge === "PUSH" ? "Even" : sa.clash.edge}</div>
+          </div>
+        </div>
+        <p style={{ ...sans, fontSize: 13, fontWeight: 500, color: "#444858", lineHeight: 1.75, marginBottom: 10 }}>{sa.clash.analysis}</p>
+        <div style={{ background: "#f8f9fc", borderRadius: 8, padding: "10px 12px", borderLeft: "3px solid #f5a623" }}>
+          <div style={{ ...sans, fontSize: 9, fontWeight: 800, color: "#b07d00", letterSpacing: 1, textTransform: "uppercase", marginBottom: 4 }}>📈 Sharp Angle</div>
+          <div style={{ ...sans, fontSize: 13, fontWeight: 600, color: "#0d0f14", lineHeight: 1.6 }}>{sa.clash.sharpAngle}</div>
+        </div>
+      </div>
+
+      {/* ── Key Matchup Questions ── */}
+      <div style={{ background: "#ffffff", border: "1px solid #e2e5ef", borderRadius: 12, padding: "14px" }}>
+        <div style={{ ...sans, fontSize: 9, fontWeight: 800, color: "#9da3b8", letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>🔑 Key Matchup Questions</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {sa.keyQuestions.map((q, i) => (
+            <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", paddingBottom: 8, borderBottom: i < sa.keyQuestions.length - 1 ? "1px solid #f0f2f8" : "none" }}>
+              <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#f0f5ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                <span style={{ ...sans, fontSize: 10, fontWeight: 900, color: "#0057e8" }}>{i + 1}</span>
+              </div>
+              <div>
+                <div style={{ ...sans, fontSize: 13, fontWeight: 700, color: "#0d0f14", marginBottom: 3 }}>{q.question}</div>
+                <div style={{ ...sans, fontSize: 12, fontWeight: 500, color: "#6b7280", lineHeight: 1.6 }}>{q.answer}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
 function IntelPanel({ fightId }) {
   const [openSig, setOpenSig] = useState(null);
   const [showProfiles, setShowProfiles] = useState(false);
   const [showSignals, setShowSignals] = useState(false);
+  const [showStyleAnalysis, setShowStyleAnalysis] = useState(false);
   const d = FIGHT_DATA[fightId];
   if (!d) return null;
   const { f1, f2, signals: sig } = d;
@@ -1073,6 +1387,17 @@ function IntelPanel({ fightId }) {
           );
         })}
       </div>}
+
+      {/* ── FIGHT STYLE ANALYSIS ── */}
+      <button onClick={() => setShowStyleAnalysis(s => !s)}
+        style={{ width: "100%", background: "#f8f9fc", border: "1px solid #e2e5ef", borderRadius: 8, padding: "10px 14px", ...sans, fontSize: 12, fontWeight: 700, color: showStyleAnalysis ? "#0057e8" : "#6b7280", cursor: "pointer", textAlign: "left", marginBottom: showStyleAnalysis ? 8 : 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span>{showStyleAnalysis ? "▲ Fight Style Analysis" : "▼ Fight Style Analysis"}</span>
+        <span style={{ ...sans, fontSize: 10, fontWeight: 600, color: "#9da3b8" }}>🥊 matchup breakdown</span>
+      </button>
+
+      {showStyleAnalysis && d.styleAnalysis && (
+        <StyleAnalysisPanel sa={d.styleAnalysis} f1={f1} f2={f2} />
+      )}
 
       {/* Fighter profiles accordion */}
       <button onClick={() => setShowProfiles(p => !p)}
@@ -1502,8 +1827,19 @@ function useFighterPhoto(name) {
 
   useEffect(() => {
     if (photoCache[name]) { setUrl(photoCache[name]); return; }
+    // Go straight to Wikipedia (UFC CDN is CORS-blocked in browsers)
+    fetchWikiPhoto(name, setUrl);
+  }, [name]);
 
-    // Try RapidAPI MMA first if we have a key + ID
+  return url;
+}
+
+function useFighterPhotoLEGACY(name) {
+  const [url, setUrl] = useState(null);
+
+  useEffect(() => {
+    if (photoCache[name]) { setUrl(photoCache[name]); return; }
+
     const fighterId = MMA_FIGHTER_IDS[name];
     if (RAPIDAPI_KEY && fighterId) {
       fetch(`https://mma-api.p.rapidapi.com/fighters/${fighterId}`, {
@@ -1560,13 +1896,16 @@ function fetchWikiPhoto(name, setUrl) {
 
 // ─── PHOTO CARD ───────────────────────────────────────────────────────────────
 function PhotoCard({ fdata, side, height = 140 }) {
-  const photoUrl = useFighterPhoto(fdata?.name);
-  const [err, setErr] = useState(false);
+  const wikiUrl = useFighterPhoto(fdata?.name);
+  const [ufcErr, setUfcErr] = useState(false);
+  const [wikiErr, setWikiErr] = useState(false);
   const bg = side === "f1"
     ? "linear-gradient(160deg,#0d1540 0%,#1a2a70 100%)"
     : "linear-gradient(160deg,#1a0008 0%,#3d0015 100%)";
   const initials = fdata?.name?.split(" ").map(w => w[0]).join("") || "?";
-  const imgSrc = photoUrl && !err ? photoUrl : null;
+  // Try UFC CDN first (img tags can load cross-origin), then Wikipedia, then initials
+  const ufcSrc = fdata?.photo && !ufcErr ? fdata.photo : null;
+  const imgSrc = ufcSrc || (wikiUrl && !wikiErr ? wikiUrl : null);
 
   return (
     <div style={{ position: "relative", height, background: bg, overflow: "hidden" }}>
@@ -1574,7 +1913,7 @@ function PhotoCard({ fdata, side, height = 140 }) {
         <img
           src={imgSrc}
           alt={fdata?.name}
-          onError={() => setErr(true)}
+          onError={() => { if (ufcSrc) setUfcErr(true); else setWikiErr(true); }}
           style={{
             position: "absolute", bottom: 0,
             left: "50%", transform: "translateX(-50%)",
