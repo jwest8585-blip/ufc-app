@@ -3172,16 +3172,15 @@ function PhotoCard({ fdata, side, height = 140 }) {
   const wikiUrl = useFighterPhoto(fdata?.name);
   const [ufcErr, setUfcErr] = useState(false);
   const [wikiErr, setWikiErr] = useState(false);
-  const bg = side === "f1"
-    ? "linear-gradient(160deg,#0d1540 0%,#1a2a70 100%)"
-    : "linear-gradient(160deg,#1a0008 0%,#3d0015 100%)";
   const initials = fdata?.name?.split(" ").map(w => w[0]).join("") || "?";
-  // Try UFC CDN first (img tags can load cross-origin), then Wikipedia, then initials
   const ufcSrc = fdata?.photo && !ufcErr ? fdata.photo : null;
   const imgSrc = ufcSrc || (wikiUrl && !wikiErr ? wikiUrl : null);
 
   return (
-    <div style={{ position: "relative", height, background: bg, overflow: "hidden" }}>
+    <div style={{ position: "relative", height, background: "#ffffff", overflow: "hidden" }}>
+      {/* Subtle vignette at bottom */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.04) 100%)", zIndex: 1, pointerEvents: "none" }} />
+
       {imgSrc ? (
         <img
           src={imgSrc}
@@ -3190,18 +3189,35 @@ function PhotoCard({ fdata, side, height = 140 }) {
           style={{
             position: "absolute", bottom: 0,
             left: "50%", transform: "translateX(-50%)",
-            height: "100%", width: "auto",
-            objectFit: "cover", objectPosition: "top center",
+            height: "105%", width: "auto",
+            objectFit: "contain", objectPosition: "top center", zIndex: 2,
           }}
         />
       ) : (
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ width: 60, height: 60, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "2px solid rgba(255,255,255,0.18)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ fontFamily: "Inter Tight,Inter,sans-serif", fontWeight: 900, fontSize: 22, color: "rgba(255,255,255,0.5)" }}>{initials}</span>
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2 }}>
+          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "#f0f2f8", border: "2px solid #e2e5ef", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontFamily: "Inter Tight,Inter,sans-serif", fontWeight: 900, fontSize: 20, color: "#9da3b8" }}>{initials}</span>
           </div>
         </div>
       )}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 55, background: side === "f1" ? "linear-gradient(transparent,#0d1540)" : "linear-gradient(transparent,#1a0008)", pointerEvents: "none" }} />
+
+      {/* Frosted flag strip */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 4,
+        background: "rgba(255,255,255,0.82)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        borderTop: "1px solid rgba(0,0,0,0.06)",
+        padding: "5px 9px",
+        display: "flex", alignItems: "center",
+        justifyContent: side === "f1" ? "flex-start" : "flex-end",
+        gap: 5,
+      }}>
+        <span style={{ fontSize: 15, lineHeight: 1 }}>{fdata?.flag || "🏳️"}</span>
+        <span style={{ fontFamily: "Inter,Arial,sans-serif", fontSize: 9, fontWeight: 800, color: "#1a1d2e", letterSpacing: 0.9, textTransform: "uppercase" }}>
+          {fdata?.nationality || ""}
+        </span>
+      </div>
     </div>
   );
 }
@@ -3230,14 +3246,14 @@ function FighterCard({ fdata, odds, side, picked, onPick, done, isWinner }) {
           </div>
         )}
 
-        {/* Picked badge */}
+        {/* Picked badge — sits above frosted strip */}
         {isPicked && (
-          <div style={{ position: "absolute", bottom: 8, [side === "f1" ? "left" : "right"]: 8, background: side === "f1" ? "#0057e8" : "#e8001c", borderRadius: 4, padding: "2px 7px" }}>
+          <div style={{ position: "absolute", bottom: 32, [side === "f1" ? "left" : "right"]: 8, background: side === "f1" ? "#0057e8" : "#e8001c", borderRadius: 4, padding: "2px 7px", zIndex: 6 }}>
             <span style={{ fontFamily: "Inter,sans-serif", fontSize: 9, fontWeight: 800, color: "#fff", letterSpacing: 0.5 }}>✓ PICKED</span>
           </div>
         )}
         {isWinner && (
-          <div style={{ position: "absolute", bottom: 8, [side === "f1" ? "left" : "right"]: 8, background: "#007a4d", borderRadius: 4, padding: "2px 7px" }}>
+          <div style={{ position: "absolute", bottom: 32, [side === "f1" ? "left" : "right"]: 8, background: "#007a4d", borderRadius: 4, padding: "2px 7px", zIndex: 6 }}>
             <span style={{ fontFamily: "Inter,sans-serif", fontSize: 9, fontWeight: 800, color: "#fff", letterSpacing: 0.5 }}>WINNER</span>
           </div>
         )}
