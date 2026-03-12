@@ -19,8 +19,8 @@ body{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;backgroun
 @keyframes slideIn{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:translateX(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 @keyframes octGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(229,57,53,0.4))}50%{filter:drop-shadow(0 0 14px rgba(229,57,53,0.85))}}
-@keyframes waveDraw{to{stroke-dashoffset:0}}
-@keyframes waveGlow{0%,100%{opacity:.9}50%{opacity:1;filter:drop-shadow(0 0 3px #e53935)}}
+@keyframes waveDraw{from{stroke-dashoffset:160}to{stroke-dashoffset:0}}
+@keyframes waveGlow{0%,100%{opacity:.85;stroke:#e53935}50%{opacity:1;stroke:#ff7055}}
 @keyframes iqGlow{0%,100%{filter:drop-shadow(0 0 6px rgba(229,57,53,.3))}50%{filter:drop-shadow(0 0 16px rgba(229,57,53,.75))}}
 @keyframes liveBlink{0%,100%{opacity:1;box-shadow:0 0 4px #e53935}50%{opacity:.3;box-shadow:none}}
 @keyframes radarSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -3452,17 +3452,31 @@ export default function App() {
 
           {/* FightIQ Logo */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <svg className="oct-glow" viewBox="0 0 110 110" width="34" height="34">
-              <polygon points="33,4 77,4 106,33 106,77 77,106 33,106 4,77 4,33"
-                fill="#110608" stroke="#e53935" strokeWidth="4"/>
-              <polyline className="wave-draw"
-                points="20,55 30,55 38,32 42,78 46,55 60,55 64,38 68,72 72,55 90,55"
-                fill="none" stroke="#e53935" strokeWidth="5.5"
-                strokeLinecap="round" strokeLinejoin="round"/>
+            <svg viewBox="0 0 110 110" width="38" height="38"
+              style={{ animation: "octGlow 2.8s ease-in-out infinite", overflow: "visible" }}>
+              <defs>
+                <clipPath id="octClip">
+                  <polygon points="35,6 75,6 104,35 104,75 75,104 35,104 6,75 6,35"/>
+                </clipPath>
+              </defs>
+              {/* Outer octagon border */}
+              <polygon points="35,6 75,6 104,35 104,75 75,104 35,104 6,75 6,35"
+                fill="#110608" stroke="#e53935" strokeWidth="3.5"/>
+              {/* Waveform — clipped to stay inside, sized to fit 18→92 x range */}
+              <polyline
+                points="18,55 28,55 35,55 40,28 44,82 48,55 55,55 60,33 65,77 69,55 76,55 82,55 92,55"
+                fill="none" stroke="#e53935" strokeWidth="4.5"
+                strokeLinecap="round" strokeLinejoin="round"
+                clipPath="url(#octClip)"
+                style={{
+                  strokeDasharray: 160,
+                  strokeDashoffset: 160,
+                  animation: "waveDraw 1.4s cubic-bezier(.4,0,.2,1) 0.3s forwards, waveGlow 2.8s ease-in-out 1.7s infinite"
+                }}/>
             </svg>
             <div style={{ display: "flex", alignItems: "baseline" }}>
               <span style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, color: "#f0f0f8", letterSpacing: "0.04em", lineHeight: 1 }}>FIGHT</span>
-              <span className="iq-glow" style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, letterSpacing: "0.04em", lineHeight: 1, background: "linear-gradient(135deg,#ff6535,#e53935)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>IQ</span>
+              <span style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, letterSpacing: "0.04em", lineHeight: 1, background: "linear-gradient(135deg,#ff6535,#e53935)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", animation: "iqGlow 2.8s ease-in-out infinite" }}>IQ</span>
             </div>
           </div>
 
