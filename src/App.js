@@ -3021,6 +3021,59 @@ function renderDetailTab(key, sig, f1, f2) {
   return <div><INote text={s.note || "No detail available."} /></div>;
 }
 
+
+// ─── MODEL RECORD STRIP ───────────────────────────────────────────────────────
+function ModelRecordStrip({ record }) {
+  const stats = [
+    { label: "OVERALL RECORD", value: `${record.correct}-${record.total - record.correct}` },
+    { label: "ACCURACY", value: record.total > 0 ? `${record.accuracy}%` : "—" },
+    { label: "UNDERDOGS HIT", value: String(record.underdogs) },
+    { label: "PICKS TRACKED", value: String(record.total) },
+  ];
+  return (
+    <div style={{ background: "#12121a", border: "1px solid #1e1e2a", borderRadius: 12, padding: "14px 16px", marginBottom: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+        <span style={{ ...mono, fontSize: 8, color: "#e53935", letterSpacing: 3 }}>MODEL RECORD</span>
+        <span style={{ ...mono, fontSize: 7, color: "#2a2a45", letterSpacing: 2 }}>UPDATED AFTER EACH RESULT</span>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+        {stats.map(({ label, value }) => (
+          <div key={label} style={{ background: "#0e0e14", border: "1px solid #1e1e2a", borderRadius: 8, padding: "10px 12px" }}>
+            <div style={{ ...mono, fontSize: 7, color: "#3a3a55", letterSpacing: 2, marginBottom: 6 }}>{label}</div>
+            <div style={{ fontFamily: "Inter Tight,Inter,sans-serif", fontWeight: 800, fontSize: 22, color: "#f0f0f8", lineHeight: 1 }}>{value}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── RESULT LOGGER ────────────────────────────────────────────────────────────
+function ResultLogger({ fight, onLogResult }) {
+  const [open, setOpen] = useState(false);
+  if (!open) return (
+    <button onClick={() => setOpen(true)} style={{ background: "none", border: "1px solid #1e1e2a", borderRadius: 6, padding: "4px 12px", ...mono, fontSize: 8, color: "#2a2a45", letterSpacing: 2, cursor: "pointer", marginTop: 8 }}>
+      + LOG RESULT
+    </button>
+  );
+  return (
+    <div style={{ marginTop: 10, background: "#12121a", border: "1px solid #1e1e2a", borderRadius: 10, padding: "12px 14px" }}>
+      <div style={{ ...mono, fontSize: 7, color: "#3a3a55", letterSpacing: 3, marginBottom: 10 }}>LOG WINNER</div>
+      <div style={{ display: "flex", gap: 8 }}>
+        {[fight.f1, fight.f2].map(name => (
+          <button key={name} onClick={() => { onLogResult(fight.id, name, "Decision"); setOpen(false); }}
+            style={{ flex: 1, background: "#0e0e14", border: "1px solid #2a2a3a", borderRadius: 8, padding: "8px 10px", cursor: "pointer", ...sans, fontSize: 13, fontWeight: 700, color: "#9090b8", transition: "all .15s" }}
+            onMouseEnter={e => { e.target.style.borderColor = "#e53935"; e.target.style.color = "#f0f0f8"; }}
+            onMouseLeave={e => { e.target.style.borderColor = "#2a2a3a"; e.target.style.color = "#9090b8"; }}>
+            {name}
+          </button>
+        ))}
+        <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "#3a3a55", fontSize: 16 }}>✕</button>
+      </div>
+    </div>
+  );
+}
+
 // ─── FIGHT ROW ────────────────────────────────────────────────────────────────
 
 // ─── API KEYS (injected via Vercel env vars) ──────────────────────────────────
@@ -3044,23 +3097,27 @@ function useLiveOdds() {
       const data = await res.json();
       if (!Array.isArray(data)) return;
 
+      const norm = s => s?.toLowerCase().replace(/[^a-z]/g, '') || '';
+      const fmt = n => n > 0 ? `+${n}` : `${n}`;
       const map = {};
+      const normMap = {};
       data.forEach(event => {
-        const [f1name, f2name] = event.home_team
-          ? [event.home_team, event.away_team]
-          : [event.away_team, event.home_team];
+        const ht = event.home_team;
+        const at = event.away_team;
+        if (!ht || !at) return;
         const book = event.bookmakers?.find(b => b.key === "draftkings") || event.bookmakers?.[0];
         if (!book) return;
         const h2h = book.markets?.find(m => m.key === "h2h");
         if (!h2h) return;
-        const o1 = h2h.outcomes?.find(o => o.name === event.home_team);
-        const o2 = h2h.outcomes?.find(o => o.name === event.away_team);
-        if (o1 && o2) {
-          const fmt = n => n > 0 ? `+${n}` : `${n}`;
-          map[`${f1name}|${f2name}`] = { f1: fmt(o1.price), f2: fmt(o2.price) };
-          map[`${f2name}|${f1name}`] = { f1: fmt(o2.price), f2: fmt(o1.price) };
-        }
+        const o1 = h2h.outcomes?.find(o => o.name === ht);
+        const o2 = h2h.outcomes?.find(o => o.name === at);
+        if (!o1 || !o2) return;
+        map[`${ht}|${at}`] = { f1: fmt(o1.price), f2: fmt(o2.price) };
+        map[`${at}|${ht}`] = { f1: fmt(o2.price), f2: fmt(o1.price) };
+        normMap[`${norm(ht)}|${norm(at)}`] = { f1: fmt(o1.price), f2: fmt(o2.price) };
+        normMap[`${norm(at)}|${norm(ht)}`] = { f1: fmt(o2.price), f2: fmt(o1.price) };
       });
+      map.__norm = normMap;
       setOdds(map);
       setLastUpdate(new Date());
     } catch(e) {
@@ -3267,30 +3324,69 @@ function FighterCard({ fdata, odds, side, picked, onPick, done, isWinner }) {
   );
 }
 
-function FightRow({ fight, picks, onPick }) {
+function FightRow({ fight, picks, onPick, results, onLogResult }) {
   const [open, setOpen] = useState(false);
   const p = picks[fight.id];
-  const done = fight.status === "COMPLETED";
+  const loggedResult = results?.[fight.id];
+  const done = fight.status === "COMPLETED" || !!loggedResult;
+  const winner = fight.winner || loggedResult?.winner;
+  const method = fight.method || loggedResult?.method;
   const fd = FIGHT_DATA[fight.id];
   const f1data = fd?.f1;
   const f2data = fd?.f2;
 
+  // Dual probability bar values
+  const f1prob = fd?.verdict ? toImplied(fight.f1odds) : null;
+  const f2prob = fd?.verdict ? toImplied(fight.f2odds) : null;
+
+  // Did our pick win?
+  const ourPick = fd?.verdict?.pick;
+  const predCorrect = done && winner && ourPick && ourPick === winner;
+  const predWrong   = done && winner && ourPick && ourPick !== winner;
+
   return (
     <div style={{ borderBottom: "1px solid #1e1e2a", paddingBottom: 28, marginBottom: 28 }}>
       {/* Weight class + result badge */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-        <span style={{ ...mono, fontSize: 8, color: "#3a3a55", letterSpacing: 1 }}>{fight.wc}</span>
-        {done && fight.winner && <span style={{ ...sans, fontSize: 11, fontWeight: 700, color: "#4caf7d", background: "rgba(76,175,125,0.12)", padding: "3px 10px", borderRadius: 20 }}>✓ {fight.winner} · {fight.method}</span>}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ ...mono, fontSize: 8, color: "#3a3a55", letterSpacing: 1 }}>{fight.wc}</span>
+          {fight.liveOdds && !done && (
+            <span style={{ ...mono, fontSize: 7, color: "#4caf7d", background: "rgba(76,175,125,0.08)", border: "1px solid rgba(76,175,125,0.2)", borderRadius: 10, padding: "1px 7px", letterSpacing: 1 }}>● LIVE ODDS</span>
+          )}
+        </div>
+        {done && winner && (
+          <span style={{ ...sans, fontSize: 11, fontWeight: 700,
+            color: predCorrect ? "#4caf7d" : predWrong ? "#e53935" : "#f0f0f8",
+            background: predCorrect ? "rgba(76,175,125,0.12)" : predWrong ? "rgba(229,57,53,0.12)" : "rgba(255,255,255,0.06)",
+            padding: "3px 10px", borderRadius: 20 }}>
+            {predCorrect ? "✓ CORRECT · " : predWrong ? "✗ MISS · " : ""}{winner} · {method}
+          </span>
+        )}
       </div>
 
       {/* Fighter photo cards */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 28px 1fr", marginBottom: 10, gap: 0 }}>
-        <FighterCard fdata={f1data} odds={fight.f1odds} side="f1" picked={p} onPick={() => !done && onPick(fight.id, "f1")} done={done} isWinner={done && fight.winner === fight.f1} />
+        <FighterCard fdata={f1data} odds={fight.f1odds} side="f1" picked={p} onPick={() => !done && onPick(fight.id, "f1")} done={done} isWinner={done && winner === fight.f1} />
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", background: "#0e0e14", zIndex: 1 }}>
           <span style={{ ...mono, fontSize: 8, fontWeight: 800, color: "#2a2a40" }}>vs</span>
         </div>
-        <FighterCard fdata={f2data} odds={fight.f2odds} side="f2" picked={p} onPick={() => !done && onPick(fight.id, "f2")} done={done} isWinner={done && fight.winner === fight.f2} />
+        <FighterCard fdata={f2data} odds={fight.f2odds} side="f2" picked={p} onPick={() => !done && onPick(fight.id, "f2")} done={done} isWinner={done && winner === fight.f2} />
       </div>
+
+      {/* Dual probability bar */}
+      {f1prob !== null && !done && (
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+            <span style={{ ...sans, fontSize: 11, color: "#4a4a6a" }}>{fight.f1} <strong style={{ color: "#f0f0f8" }}>{f1prob}%</strong></span>
+            <span style={{ ...mono, fontSize: 7, color: "#2a2a45", letterSpacing: 2 }}>WIN PROBABILITY</span>
+            <span style={{ ...sans, fontSize: 11, color: "#4a4a6a" }}><strong style={{ color: "#f0f0f8" }}>{f2prob}%</strong> {fight.f2}</span>
+          </div>
+          <div style={{ position: "relative", height: 6, borderRadius: 99, background: "#1e1e2a", overflow: "hidden" }}>
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${f1prob}%`, background: "linear-gradient(90deg, #1a3a8a, #3060cc)", borderRadius: 99 }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: `${f2prob}%`, background: "linear-gradient(270deg, #8a1a1a, #cc3030)", borderRadius: 99 }} />
+          </div>
+        </div>
+      )}
 
       {!done && (
         <div>
@@ -3299,6 +3395,11 @@ function FightRow({ fight, picks, onPick }) {
           </button>
           {open && <IntelPanel fightId={fight.id} />}
         </div>
+      )}
+
+      {/* Post-fight result logger — shows after fight is picked but not yet completed */}
+      {!done && fd?.verdict?.pick && fight.f1odds && fight.f2odds && (
+        <ResultLogger fight={fight} onLogResult={onLogResult} />
       )}
 
       {p && !done && (
@@ -3430,17 +3531,55 @@ export default function App() {
   const upcoming = event.fights.filter(f => f.status !== "COMPLETED");
   const pickCount = upcoming.filter(f => picks[f.id]).length;
 
-  // Merge live odds into fight data if available
+  // Merge live odds into fight data if available — with fuzzy name fallback
+  const normKey = s => s?.toLowerCase().replace(/[^a-z]/g, '') || '';
   const fightsWithLiveOdds = event.fights.map(fight => {
-    const key = `${fight.f1}|${fight.f2}`;
-    const live = liveOdds[key];
+    const exactKey = `${fight.f1}|${fight.f2}`;
+    const fuzzyKey = `${normKey(fight.f1)}|${normKey(fight.f2)}`;
+    const live = liveOdds[exactKey] || (liveOdds.__norm && liveOdds.__norm[fuzzyKey]);
     if (!live) return fight;
     return { ...fight, f1odds: live.f1, f2odds: live.f2, liveOdds: true };
   });
 
+  const [results, setResults] = useState({});
+
   const onPick = useCallback((id, side) => {
     setPicks(p => { if (p[id] === side) { const n = { ...p }; delete n[id]; return n; } return { ...p, [id]: side }; });
   }, []);
+
+  const onLogResult = useCallback((fightId, winner, method) => {
+    setResults(r => ({ ...r, [fightId]: { winner, method } }));
+  }, []);
+
+  // Build model record from completed fights + newly logged results
+  const modelRecord = useMemo(() => {
+    const allFights = EVENTS.flatMap(e => e.fights);
+    const completed = allFights.filter(f => f.status === "COMPLETED");
+    const logged = Object.entries(results).map(([fid, res]) => {
+      const f = allFights.find(f => f.id === fid);
+      return f ? { ...f, winner: res.winner, method: res.method } : null;
+    }).filter(Boolean);
+    const resolved = [...completed, ...logged.filter(l => !completed.find(c => c.id === l.id))];
+    const correct = resolved.filter(f => {
+      const d = FIGHT_DATA[f.id];
+      const pick = d?.verdict?.pick; // verdict.pick is the model's pick field
+      return pick && pick === f.winner;
+    });
+    const underdogs = correct.filter(f => {
+      const d = FIGHT_DATA[f.id];
+      const pick = d?.verdict?.pick;
+      const pickedSide = pick === f.f1 ? "f1" : "f2";
+      const odds = pickedSide === "f1" ? f.f1odds : f.f2odds;
+      return odds && odds.startsWith("+");
+    });
+    return {
+      total: resolved.length,
+      correct: correct.length,
+      accuracy: resolved.length ? Math.round((correct.length / resolved.length) * 100) : 0,
+      underdogs: underdogs.length,
+    };
+  }, [results]);
+
 
   return (
     <div style={{ minHeight: "100vh", background: "#0e0e14", color: "#f0f0f8", ...sans }}>
@@ -3451,33 +3590,9 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
 
           {/* FightIQ Logo */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <svg viewBox="0 0 110 110" width="38" height="38"
-              style={{ animation: "octGlow 2.8s ease-in-out infinite", overflow: "visible" }}>
-              <defs>
-                <clipPath id="octClip">
-                  <polygon points="35,6 75,6 104,35 104,75 75,104 35,104 6,75 6,35"/>
-                </clipPath>
-              </defs>
-              {/* Outer octagon border */}
-              <polygon points="35,6 75,6 104,35 104,75 75,104 35,104 6,75 6,35"
-                fill="#110608" stroke="#e53935" strokeWidth="3.5"/>
-              {/* Waveform — clipped to stay inside, sized to fit 18→92 x range */}
-              <polyline
-                points="18,55 28,55 35,55 40,28 44,82 48,55 55,55 60,33 65,77 69,55 76,55 82,55 92,55"
-                fill="none" stroke="#e53935" strokeWidth="4.5"
-                strokeLinecap="round" strokeLinejoin="round"
-                clipPath="url(#octClip)"
-                style={{
-                  strokeDasharray: 160,
-                  strokeDashoffset: 160,
-                  animation: "waveDraw 1.4s cubic-bezier(.4,0,.2,1) 0.3s forwards, waveGlow 2.8s ease-in-out 1.7s infinite"
-                }}/>
-            </svg>
-            <div style={{ display: "flex", alignItems: "baseline" }}>
-              <span style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, color: "#f0f0f8", letterSpacing: "0.04em", lineHeight: 1 }}>FIGHT</span>
-              <span style={{ fontFamily: "'Rajdhani',sans-serif", fontWeight: 700, fontSize: 28, letterSpacing: "0.04em", lineHeight: 1, background: "linear-gradient(135deg,#ff6535,#e53935)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", animation: "iqGlow 2.8s ease-in-out infinite" }}>IQ</span>
-            </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <img src="/fightIQlogo.png" alt="FightIQ" style={{ height: 36, width: "auto", display: "block" }} />
+            <span style={{ fontFamily: "Inter,sans-serif", fontSize: 8, fontWeight: 500, color: "#2a2a45", letterSpacing: "0.18em", textTransform: "uppercase" }}>Know Before The Bell</span>
           </div>
 
           {/* Right — odds status + live badge */}
@@ -3517,8 +3632,12 @@ export default function App() {
 
       {/* ── BODY ── */}
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "20px 16px 100px" }}>
+
+        {/* Model Record Strip */}
+        <ModelRecordStrip record={modelRecord} />
+
         <div className="fu">
-          {fightsWithLiveOdds.map(fight => <FightRow key={fight.id} fight={fight} picks={picks} onPick={onPick} />)}
+          {fightsWithLiveOdds.map(fight => <FightRow key={fight.id} fight={fight} picks={picks} onPick={onPick} results={results} onLogResult={onLogResult} />)}
 
           {pickCount > 0 && pickCount === upcoming.length && (
             <div style={{ border: "1px solid #1e1e2a", borderRadius: 8, padding: 18, background: "#12121a", marginTop: 8 }} className="fu">
